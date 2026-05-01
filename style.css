@@ -1,0 +1,77 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.project-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+/* Photo styling */
+.profile-photo {
+  filter: grayscale(20%);
+  transition: filter 0.3s ease;
+}
+
+.profile-photo:hover {
+  filter: grayscale(0%);
+}
+
+.badge {
+  transition: all 0.3s ease;
+}
+
+.card {
+  border-radius: 1.5rem;
+}
+
+.group:hover  {
+    filter: drop-shadow(0 0 8px rgba(var(--p), 0.4));
+}
+
+
+#skillsList {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(160px, 1fr));
+    gap: 2rem;
+}
+
+
+.skill-card i {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+.skill-card:hover {
+    transform: translateY(-10px) perspective(1000px) rotateX(5deg);
+}
+
+.skill-icon-container {
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+
+.dropdown-content {
+  transform-origin: top right;
+  animation: dropdownFade 0.2s ease-out;
+}
+
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+

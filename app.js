@@ -204,8 +204,7 @@ filterButtons.forEach((button) => {
 
 function toggleTheme(e) {
   const isChecked = e.target.checked;
-  const newTheme = isChecked ? "night" : "nord";
-
+  const newTheme = isChecked ? "night" : "atumn";
   root.setAttribute("data-theme", newTheme);
 
   if (themeToggle) themeToggle.checked = isChecked;

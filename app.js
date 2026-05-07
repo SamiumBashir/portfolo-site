@@ -45,7 +45,7 @@ const projects = [
     image: "./Image/lumina.png",
     description:
       "A multi-page creative site with separate pages and a more complete small-business website structure.",
-    stack: ["HTML", "CSS", 'JavaScript' "Multi-page Build"],
+    stack: ["HTML", "CSS", 'JavaScript', "Multi-page Build"],
     live: "https://lumina-creative-beta.vercel.app/",
     repo: "https://github.com/SamiumBashir/Lumina-Creative",
     highlight:

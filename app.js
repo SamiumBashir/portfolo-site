@@ -2,7 +2,7 @@ const projects = [
   {
     title: "Convention Center",
     category: "Vanue Showcase",
-    type: "multi",
+    type: "ui",
     image: "./Image/convension_center.png",
     description:
       "A professional landing page for a convention center featuring event spaces, pricing plans, and a contact section.",
@@ -85,7 +85,6 @@ const skills = [
   "JavaScript",
   "React 19",
   "Tailwind CSS",
-  "DaisyUI",
   "Bootstrap 5",
   "Responsive Design",
   "Git & GitHub",
@@ -159,11 +158,11 @@ function renderSkills() {
     { name: "JavaScript", icon: "javascript-plain" },
     { name: "React 19", icon: "react-original" },
     { name: "Tailwind", icon: "tailwindcss-original" },
-    { name: "DaisyUI", icon: "canjs-original" },
     { name: "Bootstrap 5", icon: "bootstrap-plain" },
     { name: "Git", icon: "git-plain" },
     { name: "GitHub", icon: "github-original" },
     { name: "Vercel", icon: "vercel-original" },
+    { name: "Netlify", icon: "netlify-plain" },
   ];
 
   const skillsList = document.getElementById("skillsList");
@@ -204,7 +203,7 @@ filterButtons.forEach((button) => {
 
 function toggleTheme(e) {
   const isChecked = e.target.checked;
-  const newTheme = isChecked ? "night" : "atumn";
+  const newTheme = isChecked ? "night" : "nord";
   root.setAttribute("data-theme", newTheme);
 
   if (themeToggle) themeToggle.checked = isChecked;

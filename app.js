@@ -112,7 +112,7 @@ function renderProjects(filter = "all") {
           <div class="card-body">
             <div class="flex items-center justify-between gap-3">
               <h3 class="card-title text-2xl">${project.title}</h3>
-              <div class="badge badge-outline">${project.category}</div>
+              <div class="badge badge-outline text-xs sm:text-sm">${project.category}</div>
             </div>
             <img src= "${project.image}"
             alt ="${project.title}"/>
@@ -172,8 +172,6 @@ function renderSkills() {
       (skill, index) => `
         <div class="skill-card group relative bg-base-200/40 backdrop-blur-md border border-base-300 p-8 rounded-3xl flex flex-col items-center justify-center gap-4 transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_30px_rgba(var(--p),0.2)]" 
              data-aos="fade-up" data-aos-delay="${index * 50}">
-            
-            <!-- Background Glow on Hover -->
             <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl -z-10"></div>
 
             <div class="skill-icon-container relative w-20 h-20 bg-base-100 rounded-2xl shadow-inner flex items-center justify-center group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500">

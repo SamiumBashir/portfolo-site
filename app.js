@@ -45,7 +45,7 @@ const projects = [
     image: "./Image/lumina.png",
     description:
       "A multi-page creative site with separate pages and a more complete small-business website structure.",
-    stack: ["HTML", "CSS", 'JavaScript', "Multi-page Build"],
+    stack: ["HTML", "CSS", "JavaScript", "Multi-page Build"],
     live: "https://lumina-creative-beta.vercel.app/",
     repo: "https://github.com/SamiumBashir/Lumina-Creative",
     highlight:
@@ -162,7 +162,7 @@ function renderSkills() {
     { name: "Git", icon: "git-plain" },
     { name: "GitHub", icon: "github-original" },
     { name: "Vercel", icon: "vercel-original" },
-    { name: "Netlify", icon: "netlify-plain" },
+    { name: "Netlify", icon: "netlify-plain" }
   ];
 
   const skillsList = document.getElementById("skillsList");
@@ -182,7 +182,6 @@ function renderSkills() {
             
             <div class="text-center">
                 <span class="font-black text-xs uppercase tracking-widest opacity-40 group-hover:opacity-100 group-hover:text-primary transition-all">${skill.name}</span>
-                <!-- Skill Level Indicator (Optional) -->
                 <div class="w-12 h-1 bg-base-300 mx-auto mt-2 rounded-full overflow-hidden">
                     <div class="bg-primary h-full w-0 group-hover:w-full transition-all duration-700"></div>
                 </div>
@@ -217,7 +216,6 @@ if (themeToggleMobile)
   themeToggleMobile.addEventListener("change", toggleTheme);
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Load saved theme
   const savedTheme = localStorage.getItem("theme") || "night";
   root.setAttribute("data-theme", savedTheme);
 

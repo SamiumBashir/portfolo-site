@@ -41,13 +41,6 @@ body {
 }
 
 
-#skillsList {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(160px, 1fr));
-    gap: 2rem;
-}
-
-
 .skill-card i {
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }

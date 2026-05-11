@@ -112,7 +112,7 @@ function renderProjects(filter = "all") {
           <div class="card-body">
             <div class="flex items-center justify-between gap-3">
               <h3 class="card-title text-2xl">${project.title}</h3>
-              <div class="badge badge-outline text-xs sm:text-sm">${project.category}</div>
+              <div class="badge badge-outline text-xs xl:text-xs">${project.category}</div>
             </div>
             <img src= "${project.image}"
             alt ="${project.title}"/>

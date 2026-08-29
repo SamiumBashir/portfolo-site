@@ -1,401 +1,934 @@
 <!doctype html>
-<html lang="en" data-theme="night">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Samium Bashir | Portfolio</title>
+    <title>Samium Bashir Badhan // Frontend Systems &amp; UI Engineer // Technical Dossier</title>
+    <meta name="description" content="Technical Dossier of Samium Bashir Badhan — Frontend Developer & UI Engineer from Dhaka, Bangladesh. Specializing in high-precision React applications, component architecture, and modern JavaScript." />
     <link rel="shortcut icon" href="./Image/favIcon.png" type="image/x-icon">
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
-    />
+    
+    <!-- Google Fonts: Editorial Serifs, Technical Sans & Monospace -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- DevIcons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"/>
+    
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    
+    <!-- Custom Technical Dossier Styles -->
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body class="bg-base-100 text-base-content overflow-x-hidden">
-    <svg
-      class="pointer-events-none fixed left-0 top-0 -z-10 h-[420px] w-[420px] text-primary/15 blur-3xl"
-      viewBox="0 0 200 200"
-      fill="currentColor"
-    >
-      <path
-        d="M39.8,-67.6C52.7,-61.3,65.1,-53.1,73,-41.4C80.9,-29.7,84.3,-14.8,81.1,-1.8C77.9,11.1,68.1,22.3,61.4,34.7C54.6,47.1,50.9,60.9,41.4,69.1C31.9,77.3,15.9,79.9,0.6,78.8C-14.7,77.7,-29.3,73,-40,64.2C-50.8,55.4,-57.6,42.5,-66.4,30.1C-75.2,17.7,-86.1,5.9,-84.8,-5.2C-83.4,-16.3,-69.8,-26.6,-59.4,-37.4C-49,-48.2,-41.9,-59.5,-31.8,-67C-21.7,-74.5,-10.8,-78.2,1.4,-80.6C13.7,-83,27.4,-84,39.8,-67.6Z"
-      ></path>
-    </svg>
+  <body class="blueprint-grid-bg text-[#111111] antialiased selection:bg-[#8F1D25] selection:text-[#F5F4F1]">
 
-    <header
-      class="sticky top-0 z-50 border-b border-base-300 bg-base-100/90 backdrop-blur"
-    >
-      <div class="navbar mx-auto max-w-7xl px-4">
-        <div class="navbar-start">
-          <a
-            href="#home"
-            class="text-xl font-bold tracking-tight hover:text-primary transition-colors"
-          >
-            Samium Bashir Badhan
+    <!-- Noise Texture Overlay -->
+    <div class="noise-layer" aria-hidden="true"></div>
+
+    <!-- Custom Technical Crosshair Cursor -->
+    <div id="tech-cursor" class="tech-cursor" aria-hidden="true"></div>
+    <div id="tech-cursor-follower" class="tech-cursor-follower" aria-hidden="true"></div>
+
+    <!-- Top Scroll Progress Indicator -->
+    <div id="scroll-progress" class="tech-scroll-progress" role="progressbar" aria-label="Reading progress"></div>
+
+    <!-- ==========================================================================
+       FIXED MINIMAL EDITORIAL NAVIGATION & DOSSIER HEADER
+       ========================================================================== -->
+    <header id="dossier-header" class="sticky top-0 z-50 bg-[#F5F4F1]/90 backdrop-blur-md border-b border-[#D8D8D5] transition-all">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        
+        <!-- Left: Dossier Classification & Identity Tag -->
+        <div class="flex items-center gap-3">
+          <a href="#home" class="flex items-center gap-2 group text-decoration-none">
+            <span class="w-2.5 h-2.5 bg-[#8F1D25] inline-block transition-transform group-hover:rotate-45"></span>
+            <span class="font-mono-tech text-xs font-bold tracking-widest text-[#111111] uppercase group-hover:text-[#8F1D25] transition-colors">
+              SAMIUM // SB-2026
+            </span>
           </a>
+          <span class="hidden sm:inline-block font-mono-tech text-[0.65rem] text-[#747474] border-l border-[#D8D8D5] pl-3">
+            [ CLASSIFIED: LEVEL-01 ]
+          </span>
         </div>
 
-        <div class="navbar-end">
-          <div class="hidden md:flex items-center gap-1">
-            <a href="#about" class="btn btn-ghost btn-sm">About</a>
-            <a href="#projects" class="btn btn-ghost btn-sm">Projects</a>
-            <a href="#skills" class="btn btn-ghost btn-sm">Skills</a>
-            <a href="#contact" class="btn btn-ghost btn-sm">Contact</a>
-            <label class="swap swap-rotate" id="themeToggle">
-              <input type="checkbox" />
+        <!-- Center: Desktop Navigation Links -->
+        <nav class="hidden lg:flex items-center gap-1" aria-label="Main Navigation">
+          <a href="#home" class="editorial-nav-link active">01 HOME</a>
+          <a href="#about" class="editorial-nav-link">02 PROFILE</a>
+          <a href="#experience" class="editorial-nav-link">03 EXPERIENCE</a>
+          <a href="#skills" class="editorial-nav-link">04 TOOLBOX</a>
+          <a href="#projects" class="editorial-nav-link">05 WORKS</a>
+          <a href="#architecture" class="editorial-nav-link">06 ARCHITECTURE</a>
+          <a href="#contact" class="editorial-nav-link">07 CONTACT</a>
+        </nav>
 
-              <!-- sun icon -->
-              <svg
-                class="swap-on h-5 w-5 fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"
-                />
-              </svg>
-
-              <!-- moon icon -->
-              <svg
-                class="swap-off h-5 w-5 fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"
-                />
-              </svg>
-            </label>
+        <!-- Right: Status Pill & Quick Action -->
+        <div class="flex items-center gap-3">
+          <div class="hidden md:flex items-center gap-2 px-2.5 py-1 bg-[#ECECE6] border border-[#D8D8D5]">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+            <span class="font-mono-tech text-[0.6875rem] font-semibold text-[#111111] tracking-wider uppercase">
+              STATUS: AVAILABLE
+            </span>
           </div>
 
-          <div class="dropdown dropdown-end md:hidden">
-            <label tabindex="0" class="btn btn-ghost btn-circle">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 6h16M4 12h16M4 18h7"
-                />
-              </svg>
-            </label>
-            <ul
-              tabindex="0"
-              class="menu menu-sm dropdown-content mt-3 z-[1] p-4 shadow-2xl bg-base-200 rounded-box w-64 border border-base-300"
-            >
-              <li><a href="#about">About</a></li>
-              <li><a href="#projects">Projects</a></li>
-              <li><a href="#skills">Skills</a></li>
-              <li><a href="#contact">Contact</a></li>
-              <div class="divider"></div>
-              <li class="flex-row justify-between items-center px-4">
-                <span class="text-xs font-bold uppercase opacity-60"
-                  >Dark Mode</span
-                >
-                <input
-                  type="checkbox"
-                  checked="checked"
-                  id="themeToggleMobile"
-                  class="toggle toggle-primary toggle-sm"
-                />
-              </li>
-            </ul>
-          </div>
+          <a href="#contact" class="btn-editorial-primary btn-editorial-sm hidden sm:inline-flex">
+            START DIALOGUE →
+          </a>
+
+          <!-- Mobile Hamburger -->
+          <button 
+            id="mobileMenuBtn"
+            class="lg:hidden p-2 border border-[#D8D8D5] bg-[#ECECE6] text-[#111111] hover:border-[#8F1D25] focus:outline-none"
+            aria-label="Open Navigation Menu"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
         </div>
       </div>
     </header>
 
+    <!-- Mobile Full-Screen Overlay Navigation -->
+    <div id="mobileMenuOverlay" class="fixed inset-0 bg-[#111111]/95 backdrop-blur-lg z-50 hidden flex flex-col justify-between p-8 text-[#F5F4F1]">
+      <div class="flex items-center justify-between border-b border-[#2A2A2A] pb-4">
+        <span class="font-mono-tech text-xs text-[#8F1D25] tracking-widest font-bold">// DOSSIER INDEX</span>
+        <button id="mobileMenuClose" class="p-2 text-[#F5F4F1] hover:text-[#8F1D25] font-mono-tech text-xl">✕ CLOSE</button>
+      </div>
+
+      <nav class="flex flex-col gap-6 my-auto">
+        <a href="#home" class="mobile-nav-link font-serif-display text-3xl font-bold hover:text-[#8F1D25] transition-colors"><span class="font-mono-tech text-xs text-[#8F1D25] mr-3">01 //</span>HOME</a>
+        <a href="#about" class="mobile-nav-link font-serif-display text-3xl font-bold hover:text-[#8F1D25] transition-colors"><span class="font-mono-tech text-xs text-[#8F1D25] mr-3">02 //</span>PROFILE</a>
+        <a href="#experience" class="mobile-nav-link font-serif-display text-3xl font-bold hover:text-[#8F1D25] transition-colors"><span class="font-mono-tech text-xs text-[#8F1D25] mr-3">03 //</span>EXPERIENCE</a>
+        <a href="#skills" class="mobile-nav-link font-serif-display text-3xl font-bold hover:text-[#8F1D25] transition-colors"><span class="font-mono-tech text-xs text-[#8F1D25] mr-3">04 //</span>TOOLBOX</a>
+        <a href="#projects" class="mobile-nav-link font-serif-display text-3xl font-bold hover:text-[#8F1D25] transition-colors"><span class="font-mono-tech text-xs text-[#8F1D25] mr-3">05 //</span>SELECTED WORKS</a>
+        <a href="#architecture" class="mobile-nav-link font-serif-display text-3xl font-bold hover:text-[#8F1D25] transition-colors"><span class="font-mono-tech text-xs text-[#8F1D25] mr-3">06 //</span>SYSTEM ARCHITECTURE</a>
+        <a href="#contact" class="mobile-nav-link font-serif-display text-3xl font-bold hover:text-[#8F1D25] transition-colors"><span class="font-mono-tech text-xs text-[#8F1D25] mr-3">07 //</span>CONTACT</a>
+      </nav>
+
+      <div class="border-t border-[#2A2A2A] pt-4 flex flex-col gap-2 font-mono-tech text-xs text-[#747474]">
+        <span>SAMIUM BASHIR BADHAN // DHAKA, BANGLADESH</span>
+        <span>LAT: 23.8103° N // LON: 90.4125° E</span>
+      </div>
+    </div>
+
     <main>
-      <section id="home" class="hero min-h-[88vh] px-4 py-16">
-        <div
-          class="hero-content mx-auto flex w-full max-w-7xl flex-col gap-10 lg:flex-row-reverse lg:justify-between"
-        >
-          <div class="w-full max-w-md" data-aos="fade-left">
-            <div
-              class="card overflow-hidden border border-base-300 bg-base-200 shadow-2xl relative"
-            >
-              <div class="absolute left-6 top-6 z-10 badge badge-primary">
-                Available for internship
+
+      <!-- ==========================================================================
+         HERO SECTION: VERTICAL DEVELOPER PROFILE POSTER
+         ========================================================================== -->
+      <section id="home" class="min-h-[calc(100vh-4rem)] border-b border-[#D8D8D5] relative flex flex-col justify-between py-12 lg:py-16">
+        
+        <!-- Top Coordinate / File ID Strip -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mb-8">
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#D8D8D5] text-xs font-mono-tech text-[#747474]">
+            <div class="flex items-center gap-3">
+              <span class="text-[#8F1D25] font-bold">DOSSIER SPEC:</span>
+              <span>SB-REF-08933</span>
+              <span class="text-[#D8D8D5]">|</span>
+              <span>EST. 2024</span>
+            </div>
+            <div class="flex items-center gap-4">
+              <span>COORDS // 23°48'N 90°24'E</span>
+              <span class="text-[#D8D8D5]">|</span>
+              <span>DHAKA, BANGLADESH</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Hero Composition -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex-1 flex items-center">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center w-full">
+            
+            <!-- Left Editorial Identity Column (7 cols) -->
+            <div class="lg:col-span-7 flex flex-col justify-center">
+              
+              <!-- Dossier Tag -->
+              <div id="hero-dossier-tag" class="mb-4">
+                <span class="dossier-tag">PROFILE / 001 // FRONTEND SYSTEMS</span>
               </div>
-              <figure
-                class="relative bg-gradient-to-br from-primary/20 to-secondary/20"
-              >
-                <img
-                  src="./Image/image-hero.png"
-                  alt="Samium Bashir"
-                  class="profile-photo w-full rounded-2xl border-base-100 object-cover shadow-2xl"
-                  onerror=""
-                />
-              </figure>
-              <div class="card-body">
-                <div class="flex items-center gap-3">
-                  <div class="avatar">
-                    <div
-                      class="w-12 rounded-xl ring ring-primary ring-offset-base-100 ring-offset-2"
-                    >
-                      <img src="./Image/image-2.png" alt="Logo" />
-                    </div>
+
+              <!-- Massive Identity Typography -->
+              <h1 id="hero-name-title" class="font-serif-display font-black text-5xl sm:text-6xl md:text-7xl xl:text-8xl leading-[0.9] tracking-tight text-[#111111] uppercase mb-4">
+                SAMIUM<br/>
+                BASHIR<br/>
+                <span class="text-[#8F1D25]">BADHAN</span>
+              </h1>
+
+              <!-- Sub-Identity Header -->
+              <div id="hero-sub-title" class="flex items-center gap-3 mb-6">
+                <span class="w-8 h-[2px] bg-[#8F1D25]"></span>
+                <span class="font-mono-tech text-sm sm:text-base font-bold tracking-wider text-[#111111] uppercase">
+                  REACT DEVELOPER // UI SYSTEMS ENGINEER
+                </span>
+              </div>
+
+              <!-- Technical Metadata Table Box -->
+              <div id="hero-meta-table" class="bg-[#ECECE6] border border-[#D8D8D5] p-5 mb-6 shadow-sm">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono-tech text-xs">
+                  <div>
+                    <span class="text-[#747474] block mb-0.5">LOCATION //</span>
+                    <span class="font-bold text-[#111111]">Dhaka, Bangladesh</span>
                   </div>
                   <div>
-                    <p class="font-bold">Samium Bashir Badhan</p>
-                    <p class="text-xs opacity-60">Frontend Developer</p>
+                    <span class="text-[#747474] block mb-0.5">SPECIALIZATION //</span>
+                    <span class="font-bold text-[#111111]">Frontend Architecture &amp; UI</span>
+                  </div>
+                  <div>
+                    <span class="text-[#747474] block mb-0.5">PRIMARY STACK //</span>
+                    <span class="font-bold text-[#8F1D25]">React 19 · JS · TypeScript · Tailwind</span>
+                  </div>
+                  <div>
+                    <span class="text-[#747474] block mb-0.5">DISCIPLINE STATUS //</span>
+                    <span class="font-bold text-emerald-700">Open for Work &amp; Roles</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Personal Statement / Quote -->
+              <div id="hero-statement" class="pl-4 border-l-2 border-[#8F1D25] mb-8">
+                <p class="font-serif-display italic text-lg sm:text-xl text-[#333330] leading-relaxed">
+                  "Turning complex ideas into digital interfaces that feel disciplined, precise, and inevitable."
+                </p>
+              </div>
+
+              <!-- CTAs and Barcode Element -->
+              <div id="hero-ctas" class="flex flex-wrap items-center gap-4">
+                <a href="#projects" class="btn-editorial-primary">
+                  EXPLORE SELECTED WORKS ↓
+                </a>
+                <a href="https://github.com/SamiumBashir" target="_blank" rel="noreferrer" class="btn-editorial-outline">
+                  GITHUB ARCHIVE ↗
+                </a>
+
+                <!-- Barcode Graphic -->
+                <div class="hidden sm:flex items-center gap-3 pl-4 border-l border-[#D8D8D5]">
+                  <div class="barcode-element" aria-hidden="true">
+                    <div class="barcode-bar w-[2px]"></div>
+                    <div class="barcode-bar w-[1px]"></div>
+                    <div class="barcode-bar w-[3px]"></div>
+                    <div class="barcode-bar w-[1px]"></div>
+                    <div class="barcode-bar w-[2px]"></div>
+                    <div class="barcode-bar w-[4px]"></div>
+                    <div class="barcode-bar w-[1px]"></div>
+                    <div class="barcode-bar w-[3px]"></div>
+                    <div class="barcode-bar w-[2px]"></div>
+                  </div>
+                  <span class="font-mono-tech text-[0.65rem] text-[#747474] tracking-tighter">SPEC: SB-FE-2026</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Right Architectural Portrait Frame (5 cols) -->
+            <div class="lg:col-span-5 flex justify-center lg:justify-end">
+              <div id="hero-portrait-frame" class="portrait-container">
+                
+                <!-- Vertical Edge Text Along Frame -->
+                <div class="hidden xl:block absolute -left-7 top-1/2 -translate-y-1/2 -rotate-90 origin-center font-mono-tech text-[0.6rem] text-[#747474] tracking-widest uppercase">
+                  SAMIUM BASHIR // DOSSIER ARCHIVE 001
+                </div>
+
+                <div class="portrait-frame">
+                  <!-- Red Corner Markings -->
+                  <div class="corner-bracket corner-tl"></div>
+                  <div class="corner-bracket corner-tr"></div>
+                  <div class="corner-bracket corner-bl"></div>
+                  <div class="corner-bracket corner-br"></div>
+
+                  <!-- Frame Header Bar -->
+                  <div class="flex items-center justify-between pb-2 mb-2 border-b border-[#D8D8D5] font-mono-tech text-[0.65rem]">
+                    <span class="text-[#8F1D25] font-bold">PORTRAIT // SPEC-01</span>
+                    <span class="text-[#747474]">LAT 23.8103° N</span>
+                  </div>
+
+                  <!-- Portrait Image -->
+                  <div class="portrait-img-wrap">
+                    <img 
+                      src="./Image/image-hero.png" 
+                      alt="Samium Bashir Badhan - Frontend Developer"
+                      class="portrait-img"
+                      onerror="this.src='./Image/image.png'"
+                    />
+                  </div>
+
+                  <!-- Frame Footer Annotations -->
+                  <div class="pt-3 mt-2 border-t border-[#D8D8D5] flex items-center justify-between font-mono-tech text-xs">
+                    <div>
+                      <p class="font-bold text-[#111111]">SAMIUM BASHIR BADHAN</p>
+                      <p class="text-[0.65rem] text-[#747474]">FRONTEND SYSTEMS ENGINEER</p>
+                    </div>
+                    <div class="text-right">
+                      <span class="dossier-tag-neutral">VERIFIED</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Bottom Telemetry Strip -->
+        <div id="hero-telemetry" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mt-12">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-[#ECECE6] border border-[#D8D8D5]">
+            <div class="border-r border-[#D8D8D5] last:border-r-0 pr-4">
+              <span class="font-mono-tech text-2xl md:text-3xl font-bold text-[#8F1D25] block">10+</span>
+              <span class="font-mono-tech text-[0.65rem] text-[#747474] tracking-wider uppercase block">PROJECTS DEPLOYED</span>
+            </div>
+            <div class="border-r border-[#D8D8D5] last:border-r-0 pr-4">
+              <span class="font-mono-tech text-2xl md:text-3xl font-bold text-[#111111] block">REACT 19</span>
+              <span class="font-mono-tech text-[0.65rem] text-[#747474] tracking-wider uppercase block">PRIMARY ECOSYSTEM</span>
+            </div>
+            <div class="border-r border-[#D8D8D5] last:border-r-0 pr-4">
+              <span class="font-mono-tech text-2xl md:text-3xl font-bold text-[#111111] block">100%</span>
+              <span class="font-mono-tech text-[0.65rem] text-[#747474] tracking-wider uppercase block">PRODUCTION FIDELITY</span>
+            </div>
+            <div>
+              <span class="font-mono-tech text-2xl md:text-3xl font-bold text-[#8F1D25] block">∞</span>
+              <span class="font-mono-tech text-[0.65rem] text-[#747474] tracking-wider uppercase block">ENGINEERING DISCIPLINE</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ==========================================================================
+         01 / PROFILE SECTION (ABOUT)
+         ========================================================================== -->
+      <section id="about" class="py-20 lg:py-28 border-b border-[#D8D8D5] relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <!-- Section Header -->
+          <div class="mb-14">
+            <div class="section-marker mb-3">01 / PROFILE DOSSIER</div>
+            <h2 class="section-heading-large">
+              I BUILD DIGITAL INTERFACES WITH <span class="text-[#8F1D25]">ARCHITECTURAL PRECISION.</span>
+            </h2>
+          </div>
+
+          <!-- Asymmetric Content Grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            
+            <!-- Left Biography Narrative (7 cols) -->
+            <div class="lg:col-span-7 space-y-6">
+              <p class="font-sans-ui text-base sm:text-lg text-[#333330] leading-relaxed">
+                I am a Frontend Developer based in Dhaka, Bangladesh, dedicated to bridging the gap between sophisticated design systems and scalable production code. My philosophy centers on <strong>disciplined component architecture</strong>, type-safe data handling, and building resilient user interfaces that perform flawlessly across every device.
+              </p>
+              
+              <p class="font-sans-ui text-sm sm:text-base text-[#4A4A46] leading-relaxed">
+                Rather than relying on brittle ad-hoc styles or bloated templates, I construct modular web applications in <strong>React, Tailwind CSS, and TypeScript</strong> with clean separation of concerns. From complex e-commerce checkouts and multi-page agency platforms to real-time productivity dashboards, I take ownership of the entire client-side pipeline.
+              </p>
+
+              <!-- Technical Identity Specs Box -->
+              <div class="p-6 bg-[#ECECE6] border border-[#D8D8D5] mt-8">
+                <h4 class="font-mono-tech text-xs font-bold text-[#8F1D25] tracking-widest uppercase mb-4">// CORE CAPABILITIES &amp; FOCUS</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono-tech text-xs">
+                  <div class="flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 bg-[#8F1D25]"></span>
+                    <span>Responsive Layout Engineering</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 bg-[#8F1D25]"></span>
+                    <span>Figma to Production Handoff</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 bg-[#8F1D25]"></span>
+                    <span>State Integrity &amp; REST APIs</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 bg-[#8F1D25]"></span>
+                    <span>Performance &amp; Core Web Vitals</span>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="max-w-2xl" data-aos="fade-right">
-            <div class="mb-4 flex flex-wrap gap-3">
-              <div class="badge badge-outline gap-2 p-3">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path
-                    d="M12 2a7 7 0 0 1 7 7c0 4.7-4.6 9.9-6.3 11.7a1 1 0 0 1-1.4 0C9.6 18.9 5 13.7 5 9a7 7 0 0 1 7-7Z"
-                  />
-                </svg>
-                Dhaka, Bangladesh
+            <!-- Right Pillar Matrix (5 cols) -->
+            <div class="lg:col-span-5 grid grid-cols-1 gap-4">
+              
+              <div class="p-5 bg-[#ECECE6] border border-[#D8D8D5] hover:border-[#8F1D25] transition-colors">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="font-mono-tech text-xs font-bold text-[#8F1D25]">01.01 //</span>
+                  <span class="dossier-tag-neutral">ARCHITECTURE</span>
+                </div>
+                <h3 class="font-serif-display text-lg font-bold text-[#111111] mb-1">Component Architecture</h3>
+                <p class="font-sans-ui text-xs text-[#4A4A46] leading-relaxed">
+                  Building modular, atomic, and reusable React components with clean prop contracts and zero side-effects.
+                </p>
               </div>
-              <div class="badge badge-primary badge-outline gap-2 p-3">
-                Aspiring Web Developer
+
+              <div class="p-5 bg-[#ECECE6] border border-[#D8D8D5] hover:border-[#8F1D25] transition-colors">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="font-mono-tech text-xs font-bold text-[#8F1D25]">01.02 //</span>
+                  <span class="dossier-tag-neutral">PRECISION</span>
+                </div>
+                <h3 class="font-serif-display text-lg font-bold text-[#111111] mb-1">UI/UX Fidelity</h3>
+                <p class="font-sans-ui text-xs text-[#4A4A46] leading-relaxed">
+                  Translating design specs with pixel-level fidelity, refined typography scales, and accessible contrast ratios.
+                </p>
               </div>
+
+              <div class="p-5 bg-[#ECECE6] border border-[#D8D8D5] hover:border-[#8F1D25] transition-colors">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="font-mono-tech text-xs font-bold text-[#8F1D25]">01.03 //</span>
+                  <span class="dossier-tag-neutral">LOGIC</span>
+                </div>
+                <h3 class="font-serif-display text-lg font-bold text-[#111111] mb-1">State &amp; Data Control</h3>
+                <p class="font-sans-ui text-xs text-[#4A4A46] leading-relaxed">
+                  Predictable state transitions, asynchronous data fetching, and graceful error handling across web applications.
+                </p>
+              </div>
+
+              <div class="p-5 bg-[#ECECE6] border border-[#D8D8D5] hover:border-[#8F1D25] transition-colors">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="font-mono-tech text-xs font-bold text-[#8F1D25]">01.04 //</span>
+                  <span class="dossier-tag-neutral">SPEED</span>
+                </div>
+                <h3 class="font-serif-display text-lg font-bold text-[#111111] mb-1">Performance Optimization</h3>
+                <p class="font-sans-ui text-xs text-[#4A4A46] leading-relaxed">
+                  Fast Largest Contentful Paint (LCP), lightweight asset bundles, lazy loading, and semantic DOM structure.
+                </p>
+              </div>
+
             </div>
-            <h2 class="text-5xl font-black leading-tight sm:text-6xl">
-              Hi, I’m <span class="text-primary">Samium</span>.
-            </h2>
-            <p
-              class="mt-5 text-lg text-base-content/75 md:text-xl leading-relaxed"
-            >
-              I specialize in crafting clean, high-performance interfaces using
-              <span class="text-secondary font-semibold"
-                >Tailwind CSS, DaisyUI, and JavaScript</span
-              >.
-            </p>
-            <div class="mt-8 flex flex-wrap gap-4">
-              <a href="#projects" class="btn btn-primary px-8">View My Work</a>
-              <a
-                href="https://github.com/SamiumBashir"
-                target="_blank"
-                class="btn btn-outline"
-                >GitHub Profile</a
-              >
-            </div>
+
           </div>
         </div>
       </section>
 
-      <section id="about" class="px-4 py-10 bg-base-200/30">
-        <div class="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1fr_1fr]">
-          <div
-            class="card border border-base-300 bg-base-200 shadow-xl"
-            data-aos="zoom-in"
-          >
-            <div class="card-body">
-              <div class="flex items-center gap-4 mb-2">
-                <div
-                  class="w-16 h-16 rounded-full overflow-hidden border-2 border-primary"
-                >
-                  <img
-                    src="./Image/image.png"
-                    alt="Samium"
-                    class="object-cover h-full w-full"
-                    onerror="this.src = 'https://via.placeholder.com/150'"
-                  />
-                </div>
-                <h2 class="card-title text-3xl">About Me</h2>
+      <!-- ==========================================================================
+         02 / EXPERIENCE & CHRONICLE
+         ========================================================================== -->
+      <section id="experience" class="py-20 lg:py-28 border-b border-[#D8D8D5] bg-[#EFEFEA]/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="mb-14">
+            <div class="section-marker mb-3">02 / EXPERIENCE &amp; CHRONICLE</div>
+            <h2 class="section-heading-large">
+              ENGINEERING LOGS &amp; <span class="text-[#8F1D25]">MILESTONES.</span>
+            </h2>
+          </div>
+
+          <!-- Timeline Grid -->
+          <div class="max-w-4xl space-y-10">
+            
+            <!-- Log 01 -->
+            <div class="timeline-item">
+              <div class="flex flex-wrap items-baseline justify-between gap-2 mb-2">
+                <h3 class="font-serif-display text-2xl font-bold text-[#111111]">
+                  Frontend Developer &amp; Application Engineer
+                </h3>
+                <span class="font-mono-tech text-xs font-bold text-[#8F1D25] bg-[#8F1D25]/10 px-2 py-0.5 border border-[#8F1D25]/20">
+                  2026 — PRESENT
+                </span>
               </div>
-              <p class="text-base-content/80">
-                I turn complex ideas into simple, beautiful, and intuitive
-                digital experiences. My focus is on writing clean code and
-                building scalable front-end structures.
+              <p class="font-mono-tech text-xs text-[#747474] uppercase tracking-wider mb-3">
+                INDEPENDENT SOFTWARE &amp; PRODUCTION WEB APPS // DHAKA, BANGLADESH
+              </p>
+              <p class="font-sans-ui text-sm text-[#4A4A46] leading-relaxed mb-4">
+                Architecting and shipping production-ready web applications including floral e-commerce platforms (PhulKini), digital productivity hubs (DigiTools), career tracking dashboards (Job Tracker), and clinical management systems (DocPresc). Implementing component hierarchies, state orchestration, and responsive interfaces with strict adherence to modern web standards.
+              </p>
+              <div class="flex flex-wrap gap-2">
+                <span class="dossier-tag-neutral">React 19</span>
+                <span class="dossier-tag-neutral">TypeScript</span>
+                <span class="dossier-tag-neutral">Tailwind CSS</span>
+                <span class="dossier-tag-neutral">Vite</span>
+                <span class="dossier-tag-neutral">REST APIs</span>
+              </div>
+            </div>
+
+            <!-- Log 02 -->
+            <div class="timeline-item">
+              <div class="flex flex-wrap items-baseline justify-between gap-2 mb-2">
+                <h3 class="font-serif-display text-2xl font-bold text-[#111111]">
+                  UI/UX Engineer &amp; Multi-Page Portal Developer
+                </h3>
+                <span class="font-mono-tech text-xs font-bold text-[#111111] bg-[#111111]/5 px-2 py-0.5 border border-[#D8D8D5]">
+                  2025 — 2026
+                </span>
+              </div>
+              <p class="font-mono-tech text-xs text-[#747474] uppercase tracking-wider mb-3">
+                WEB INTERFACE ENGINEERING &amp; CLIENT SHOWCASES
+              </p>
+              <p class="font-sans-ui text-sm text-[#4A4A46] leading-relaxed mb-4">
+                Engineered robust multi-page creative agency sites (Lumina Creative), mobile app landing conversion funnels (Leno), and institutional portals (CMHS, Abacus Convention Center). Focused on typography scaling, cross-browser consistency, semantic markup, and friction-free navigation structures.
+              </p>
+              <div class="flex flex-wrap gap-2">
+                <span class="dossier-tag-neutral">JavaScript ES6+</span>
+                <span class="dossier-tag-neutral">HTML5 Semantic</span>
+                <span class="dossier-tag-neutral">CSS3 Grid/Flex</span>
+                <span class="dossier-tag-neutral">Bootstrap 5</span>
+                <span class="dossier-tag-neutral">Vercel &amp; Netlify</span>
+              </div>
+            </div>
+
+            <!-- Log 03 -->
+            <div class="timeline-item">
+              <div class="flex flex-wrap items-baseline justify-between gap-2 mb-2">
+                <h3 class="font-serif-display text-2xl font-bold text-[#111111]">
+                  Continuous Research &amp; Skill Specialization
+                </h3>
+                <span class="font-mono-tech text-xs text-[#747474] bg-[#111111]/5 px-2 py-0.5 border border-[#D8D8D5]">
+                  FOUNDATIONS &amp; EVOLUTION
+                </span>
+              </div>
+              <p class="font-mono-tech text-xs text-[#747474] uppercase tracking-wider mb-3">
+                COMPUTER SCIENCE &amp; MODERN WEB STANDARDS
+              </p>
+              <p class="font-sans-ui text-sm text-[#4A4A46] leading-relaxed mb-4">
+                Rigorous study of data structures, algorithm problem-solving in JavaScript, static typing with TypeScript, component lifecycle internals, and accessibility (a11y) WCAG standards.
+              </p>
+              <div class="flex flex-wrap gap-2">
+                <span class="dossier-tag-neutral">Algorithms</span>
+                <span class="dossier-tag-neutral">Data Structures</span>
+                <span class="dossier-tag-neutral">Web Accessibility</span>
+                <span class="dossier-tag-neutral">Git Workflows</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+         03 / TECHNICAL TOOLBOX (SKILLS MATRIX)
+         ========================================================================== -->
+      <section id="skills" class="py-20 lg:py-28 border-b border-[#D8D8D5]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="mb-14">
+            <div class="section-marker mb-3">03 / TECHNICAL TOOLBOX</div>
+            <h2 class="section-heading-large">
+              STRUCTURED CAPABILITY <span class="text-[#8F1D25]">MATRIX.</span>
+            </h2>
+            <p class="font-sans-ui text-sm text-[#747474] max-w-2xl mt-3">
+              Comprehensive inventory of language runtimes, UI frameworks, build toolchains, and architectural paradigms employed across production builds.
+            </p>
+          </div>
+
+          <!-- Skills Matrix Injected by app.js -->
+          <div id="skillsMatrix" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+         04 / SELECTED WORKS (PROJECTS DOSSIER)
+         ========================================================================== -->
+      <section id="projects" class="py-20 lg:py-28 border-b border-[#D8D8D5] bg-[#EFEFEA]/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <!-- Header & Filter Tabs -->
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-14">
+            <div>
+              <div class="section-marker mb-3">04 / SELECTED WORKS</div>
+              <h2 class="section-heading-large">
+                FEATURED CASE-STUDY <span class="text-[#8F1D25]">POSTERS.</span>
+              </h2>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="flex flex-wrap items-center gap-2">
+              <button class="filter-tab-editorial active" data-filter="all">ALL // 10</button>
+              <button class="filter-tab-editorial" data-filter="app">APPS // 04</button>
+              <button class="filter-tab-editorial" data-filter="ui">UI/UX // 03</button>
+              <button class="filter-tab-editorial" data-filter="multi">MULTI-PAGE // 03</button>
+            </div>
+          </div>
+
+          <!-- Project Posters Grid -->
+          <div id="projectGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+         05 / SYSTEM ARCHITECTURE (BLUEPRINT SECTION)
+         ========================================================================== -->
+      <section id="architecture" class="py-20 lg:py-28 border-b border-[#D8D8D5] bg-[#111111] text-[#F5F4F1] relative overflow-hidden">
+        <div class="blueprint-grid-dark absolute inset-0 opacity-40 pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          
+          <div class="mb-14">
+            <div class="section-marker mb-3 text-[#B52A32]">05 / SYSTEM ARCHITECTURE</div>
+            <h2 class="section-heading-large text-[#F5F4F1]">
+              APPLICATION BLUEPRINT &amp; <span class="text-[#B52A32]">DATA FLOW.</span>
+            </h2>
+            <p class="font-sans-ui text-sm text-[#A0A09C] max-w-2xl mt-3">
+              How I structure front-end software: moving deterministically from raw design specifications to state management, network contracts, and atomic DOM nodes.
+            </p>
+          </div>
+
+          <!-- Architectural Diagram Flow -->
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
+            
+            <!-- Node 1 -->
+            <div class="blueprint-node">
+              <div class="flex items-center justify-between pb-2 mb-2 border-b border-[#3A3A3A] font-mono-tech text-[0.65rem] text-[#B52A32]">
+                <span>LAYER 01</span>
+                <span>INPUT</span>
+              </div>
+              <h4 class="font-bold text-sm text-[#F5F4F1] mb-1">UI &amp; DESIGN TOKENS</h4>
+              <p class="font-sans-ui text-xs text-[#999995] leading-relaxed">
+                Color palettes, typography scales, responsive breakpoints, and layout constraints.
               </p>
             </div>
-          </div>
-          <div
-            class="card border border-base-300 bg-gradient-to-br from-primary/10 to-secondary/10 shadow-xl"
-            data-aos="zoom-in"
-            data-aos-delay="200"
-          >
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div
-                class="bg-base-100 p-4 rounded-xl border border-base-300 hover:border-primary transition-all"
-              >
-                <div class="text-primary font-bold text-lg mb-1">
-                  Advanced Frontend
-                </div>
-                <p class="text-xs opacity-60 leading-relaxed">
-                  Building pixel-perfect, responsive layouts using Tailwind CSS
-                  and DaisyUI.
-                </p>
+
+            <!-- Arrow -->
+            <div class="hidden md:flex justify-center blueprint-arrow text-xl">→</div>
+
+            <!-- Node 2 -->
+            <div class="blueprint-node">
+              <div class="flex items-center justify-between pb-2 mb-2 border-b border-[#3A3A3A] font-mono-tech text-[0.65rem] text-[#B52A32]">
+                <span>LAYER 02</span>
+                <span>STRUCT</span>
               </div>
-              <div
-                class="bg-base-100 p-4 rounded-xl border border-base-300 hover:border-secondary transition-all"
-              >
-                <div class="text-secondary font-bold text-lg mb-1">
-                  Logic & State
-                </div>
-                <p class="text-xs opacity-60 leading-relaxed">
-                  Writing clean JavaScript to handle dynamic data and
-                  interactive user behaviors.
-                </p>
-              </div>
-              <div
-                class="bg-base-100 p-4 rounded-xl border border-base-300 hover:border-accent transition-all"
-              >
-                <div class="text-accent font-bold text-lg mb-1">UX Mindset</div>
-                <p class="text-xs opacity-60 leading-relaxed">
-                  Focusing on accessibility, smooth transitions, and
-                  user-centric design flows.
-                </p>
-              </div>
-              <div
-                class="bg-base-100 p-4 rounded-xl border border-base-300 hover:border-info transition-all"
-              >
-                <div class="text-info font-bold text-lg mb-1">
-                  Clean Architecture
-                </div>
-                <p class="text-xs opacity-60 leading-relaxed">
-                  Maintaining scalable code with BEM naming and modern
-                  development practices.
-                </p>
-              </div>
+              <h4 class="font-bold text-sm text-[#F5F4F1] mb-1">ATOMIC COMPONENTS</h4>
+              <p class="font-sans-ui text-xs text-[#999995] leading-relaxed">
+                Isolated, pure React components with strictly typed props and zero leaking cascades.
+              </p>
             </div>
-          </div>
-        </div>
-      </section>
 
-      <section id="projects" class="px-4 py-20">
-        <div class="mx-auto max-w-7xl">
-          <div class="text-center mb-12" data-aos="fade-up">
-            <h2 class="text-4xl font-black mb-4">Featured Projects</h2>
-            <div class="join bg-base-200 border border-base-300">
-              <button class="join-item btn btn-sm btn-active" data-filter="all">
-                All
-              </button>
-              <button class="join-item btn btn-sm" data-filter="ui">
-                UI/UX
-              </button>
-              <button class="join-item btn btn-sm" data-filter="app">
-                Apps
-              </button>
-              <button class="join-item btn btn-sm" data-filter="multi">
-                Multi-Page
-              </button>
+            <!-- Arrow -->
+            <div class="hidden md:flex justify-center blueprint-arrow text-xl">→</div>
+
+            <!-- Node 3 -->
+            <div class="blueprint-node">
+              <div class="flex items-center justify-between pb-2 mb-2 border-b border-[#3A3A3A] font-mono-tech text-[0.65rem] text-[#B52A32]">
+                <span>LAYER 03</span>
+                <span>LOGIC</span>
+              </div>
+              <h4 class="font-bold text-sm text-[#F5F4F1] mb-1">STATE ORCHESTRATION</h4>
+              <p class="font-sans-ui text-xs text-[#999995] leading-relaxed">
+                Predictable local/global states, hooks, caching, and form validation pipelines.
+              </p>
             </div>
+
           </div>
-          <div
-            id="projectGrid"
-            class="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
-          ></div>
-        </div>
-      </section>
 
-      <section id="skills" class="px-4 py-20 bg-base-200/50">
-        <div class="mx-auto max-w-7xl">
-          <h2 class="text-4xl font-black text-center mb-12" data-aos="fade-up">
-            Technical Toolbox
-          </h2>
-          <div
-            id="skillsList"
-            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"
-          ></div>
-        </div>
-      </section>
+          <!-- Second Tier of Blueprint Flow -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            
+            <div class="p-6 bg-[#181818] border border-[#2D2D2D]">
+              <span class="font-mono-tech text-xs text-[#B52A32] font-bold block mb-2">// 01. INTEGRITY CONTRACT</span>
+              <h4 class="font-serif-display text-lg font-bold text-[#F5F4F1] mb-2">Type Safety &amp; Validation</h4>
+              <p class="font-sans-ui text-xs text-[#A0A09C] leading-relaxed">
+                Every data payload passing through API adapters is validated against predefined contracts, eliminating null-pointer runtime crashes.
+              </p>
+            </div>
 
-      <section id="contact" class="px-4 py-20">
-        <div
-          class="mx-auto max-w-4xl text-center card bg-primary text-primary-content p-10 shadow-2xl"
-          data-aos="flip-up"
-        >
-          <h2 class="text-4xl font-black mb-4">Let's Connect</h2>
-          <p class="mb-8 text-lg opacity-90">
-            I'm open to internships, junior opportunities, and collaboration on
-            front-end projects.
-          </p>
+            <div class="p-6 bg-[#181818] border border-[#2D2D2D]">
+              <span class="font-mono-tech text-xs text-[#B52A32] font-bold block mb-2">// 02. FLUID PERFORMANCE</span>
+              <h4 class="font-serif-display text-lg font-bold text-[#F5F4F1] mb-2">Optimized Rendering Cycle</h4>
+              <p class="font-sans-ui text-xs text-[#A0A09C] leading-relaxed">
+                Debounced inputs, memoized selectors, lazy image assets, and minimal re-render footprints ensure 60fps interactivity.
+              </p>
+            </div>
 
-          <div class="flex flex-wrap justify-center gap-4">
-            <a
-              href="mailto:samiumbashirbosunia@gmail.com"
-              class="btn btn-neutral no-animation"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
-              Email Me
-            </a>
+            <div class="p-6 bg-[#181818] border border-[#2D2D2D]">
+              <span class="font-mono-tech text-xs text-[#B52A32] font-bold block mb-2">// 03. EDGE DEPLOYMENT</span>
+              <h4 class="font-serif-display text-lg font-bold text-[#F5F4F1] mb-2">CI/CD &amp; Vercel Pipeline</h4>
+              <p class="font-sans-ui text-xs text-[#A0A09C] leading-relaxed">
+                Automated GitHub builds, immutable deployments, preview branches, and global CDN delivery for lightning-fast latency.
+              </p>
+            </div>
 
-            <a
-              href="https://www.linkedin.com/in/samium-bashir-badhan-8a3050371/"
-              target="_blank"
-              rel="noreferrer"
-              class="btn btn-info text-white"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 mr-2"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
-                />
-              </svg>
-              LinkedIn
-            </a>
-
-            <a
-              href="https://github.com/SamiumBashir"
-              target="_blank"
-              rel="noreferrer"
-              class="btn btn-outline btn-ghost"
-            >
-              GitHub
-            </a>
           </div>
+
         </div>
       </section>
 
-      <footer
-        class="footer footer-center p-10 border-t border-base-300 text-base-content/60"
-      >
-        <div>
-          <p>© 2026 - All Rights Reserved</p>
+      <!-- ==========================================================================
+         06 / DESIGN → CODE PIPELINE
+         ========================================================================== -->
+      <section id="pipeline" class="py-20 lg:py-28 border-b border-[#D8D8D5]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="mb-14">
+            <div class="section-marker mb-3">06 / DESIGN → CODE PIPELINE</div>
+            <h2 class="section-heading-large">
+              TRANSLATING VISION TO <span class="text-[#8F1D25]">PRODUCTION CODE.</span>
+            </h2>
+            <p class="font-sans-ui text-sm text-[#747474] max-w-2xl mt-3">
+              A disciplined, reproducible methodology for converting UI/UX mockups into production-grade React interfaces.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            
+            <!-- Step 1 -->
+            <div class="pipeline-step-box p-6 bg-[#ECECE6] border border-[#D8D8D5] flex flex-col justify-between">
+              <div>
+                <span class="font-mono-tech text-xs font-bold text-[#8F1D25] block mb-2">PHASE 01</span>
+                <h4 class="font-serif-display text-base font-bold text-[#111111] mb-2">Figma &amp; Wireframing</h4>
+                <p class="font-sans-ui text-xs text-[#4A4A46] leading-relaxed">
+                  Deconstructing visual hierarchy, layout grids, spacing rules, and interactive user flows.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-[#D8D8D5] font-mono-tech text-[0.65rem] text-[#747474]">01 // DECONSTRUCT</div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="pipeline-step-box p-6 bg-[#ECECE6] border border-[#D8D8D5] flex flex-col justify-between">
+              <div>
+                <span class="font-mono-tech text-xs font-bold text-[#8F1D25] block mb-2">PHASE 02</span>
+                <h4 class="font-serif-display text-base font-bold text-[#111111] mb-2">Design Tokens</h4>
+                <p class="font-sans-ui text-xs text-[#4A4A46] leading-relaxed">
+                  Extracting variables into Tailwind configurations: custom fonts, palette variables, and radius specs.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-[#D8D8D5] font-mono-tech text-[0.65rem] text-[#747474]">02 // TOKENIZE</div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="pipeline-step-box p-6 bg-[#ECECE6] border border-[#D8D8D5] flex flex-col justify-between">
+              <div>
+                <span class="font-mono-tech text-xs font-bold text-[#8F1D25] block mb-2">PHASE 03</span>
+                <h4 class="font-serif-display text-base font-bold text-[#111111] mb-2">Component Isolation</h4>
+                <p class="font-sans-ui text-xs text-[#4A4A46] leading-relaxed">
+                  Coding semantic HTML5 components with responsive classes and accessible ARIA attributes.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-[#D8D8D5] font-mono-tech text-[0.65rem] text-[#747474]">03 // ISOLATE</div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="pipeline-step-box p-6 bg-[#ECECE6] border border-[#D8D8D5] flex flex-col justify-between">
+              <div>
+                <span class="font-mono-tech text-xs font-bold text-[#8F1D25] block mb-2">PHASE 04</span>
+                <h4 class="font-serif-display text-base font-bold text-[#111111] mb-2">React &amp; Logic</h4>
+                <p class="font-sans-ui text-xs text-[#4A4A46] leading-relaxed">
+                  Binding reactive states, handling API responses, managing modal drawers, and form validation.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-[#D8D8D5] font-mono-tech text-[0.65rem] text-[#747474]">04 // ORCHESTRATE</div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="pipeline-step-box p-6 bg-[#ECECE6] border border-[#D8D8D5] flex flex-col justify-between">
+              <div>
+                <span class="font-mono-tech text-xs font-bold text-[#8F1D25] block mb-2">PHASE 05</span>
+                <h4 class="font-serif-display text-base font-bold text-[#111111] mb-2">Production Release</h4>
+                <p class="font-sans-ui text-xs text-[#4A4A46] leading-relaxed">
+                  Lighthouse audit, cross-device testing, bundle optimization, and edge deployment via Vercel.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-[#D8D8D5] font-mono-tech text-[0.65rem] text-[#747474]">05 // SHIP &amp; MONITOR</div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+         07 / CONTACT DOSSIER (FINAL PAGE)
+         ========================================================================== -->
+      <section id="contact" class="py-20 lg:py-28 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="mb-14">
+            <div class="section-marker mb-3">07 / CONTACT DOSSIER</div>
+            <h2 class="section-heading-large">
+              LET'S BUILD SOMETHING <span class="text-[#8F1D25]">EXTRAORDINARY.</span>
+            </h2>
+          </div>
+
+          <!-- Contact Poster Card -->
+          <div class="bg-[#ECECE6] border-2 border-[#111111] p-8 sm:p-12 lg:p-16 shadow-[12px_12px_0px_rgba(17,17,17,0.9)] relative overflow-hidden">
+            
+            <!-- Corner Brackets -->
+            <div class="corner-bracket corner-tl"></div>
+            <div class="corner-bracket corner-tr"></div>
+            <div class="corner-bracket corner-bl"></div>
+            <div class="corner-bracket corner-br"></div>
+
+            <div class="max-w-3xl">
+              <span class="dossier-tag mb-4">DIRECT CHANNELS // OPEN ACCESS</span>
+              
+              <h3 class="font-serif-display text-3xl sm:text-4xl font-bold text-[#111111] mb-6 leading-tight">
+                Currently open to frontend engineering roles, internships, and ambitious freelance collaborations.
+              </h3>
+
+              <p class="font-sans-ui text-base text-[#4A4A46] mb-10 leading-relaxed">
+                Whether you have a product to architect, a design system to implement, or an internship opportunity where high discipline is valued — feel free to initiate contact.
+              </p>
+
+              <!-- Action Row -->
+              <div class="flex flex-wrap items-center gap-4 mb-10">
+                <a href="mailto:samiumbashirbosunia@gmail.com" class="btn-editorial-primary">
+                  SEND AN EMAIL →
+                </a>
+                <button onclick="copyEmail()" class="btn-editorial-outline">
+                  COPY EMAIL ADDRESS 📋
+                </button>
+                <a href="https://www.linkedin.com/in/samium-bashir-badhan-8a3050371/" target="_blank" rel="noreferrer" class="btn-editorial-outline">
+                  LINKEDIN PROFILE ↗
+                </a>
+                <a href="https://github.com/SamiumBashir" target="_blank" rel="noreferrer" class="btn-editorial-outline">
+                  GITHUB ↗
+                </a>
+              </div>
+
+              <!-- Direct Coordinates Table -->
+              <div class="pt-8 border-t border-[#D8D8D5] grid grid-cols-1 sm:grid-cols-3 gap-6 font-mono-tech text-xs">
+                <div>
+                  <span class="text-[#747474] block mb-1">DIRECT EMAIL //</span>
+                  <a href="mailto:samiumbashirbosunia@gmail.com" class="font-bold text-[#111111] hover:text-[#8F1D25] break-all">
+                    samiumbashirbosunia@gmail.com
+                  </a>
+                </div>
+                <div>
+                  <span class="text-[#747474] block mb-1">LOCATION //</span>
+                  <span class="font-bold text-[#111111]">Dhaka, Bangladesh</span>
+                </div>
+                <div>
+                  <span class="text-[#747474] block mb-1">TIMEZONE //</span>
+                  <span class="font-bold text-[#111111]">GMT+6 (BST)</span>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+         TECHNICAL FOOTER
+         ========================================================================== -->
+      <footer class="border-t border-[#D8D8D5] bg-[#EFEFEA] py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6 font-mono-tech text-xs text-[#747474]">
+          
+          <div class="flex items-center gap-3">
+            <span class="w-2 h-2 bg-[#8F1D25]"></span>
+            <span class="font-bold text-[#111111]">SAMIUM BASHIR BADHAN</span>
+            <span>// FRONTEND SYSTEMS</span>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <span>SYSTEM STATUS: <span class="text-emerald-700 font-bold">ONLINE [●]</span></span>
+            <span>|</span>
+            <span>LAT: 23.8103° N // LON: 90.4125° E</span>
+          </div>
+
+          <div>
+            <a href="#home" class="text-[#111111] hover:text-[#8F1D25] font-bold">BACK TO TOP ↑</a>
+          </div>
+
         </div>
       </footer>
+
     </main>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-      AOS.init({ duration: 1000, once: true });
-    </script>
+    <!-- ==========================================================================
+       CASE STUDY ENGINEERING REPORT MODAL
+       ========================================================================== -->
+    <div id="caseStudyModal" class="modal-backdrop-editorial" aria-modal="true" role="dialog" aria-labelledby="modalProjectTitle">
+      <div class="modal-content-dossier">
+        
+        <!-- Modal Top Bar -->
+        <div class="p-6 border-b border-[#D8D8D5] bg-[#ECECE6] flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span id="modalProjectNumber" class="font-mono-tech text-xs font-bold text-[#8F1D25]">PROJECT / 001</span>
+            <span class="text-[#747474] text-xs">/</span>
+            <span id="modalProjectStatus" class="font-mono-tech text-xs text-[#747474] uppercase">DEPLOYED</span>
+          </div>
+          <button id="modalCloseBtn" class="font-mono-tech text-xs font-bold text-[#111111] hover:text-[#8F1D25] border border-[#D8D8D5] px-3 py-1 bg-[#F5F4F1]">
+            ✕ CLOSE
+          </button>
+        </div>
+
+        <!-- Modal Body Content -->
+        <div class="p-6 sm:p-10 space-y-8">
+          
+          <div>
+            <h2 id="modalProjectTitle" class="font-serif-display text-3xl sm:text-4xl font-black text-[#111111] mb-1">PROJECT TITLE</h2>
+            <p id="modalProjectSubtitle" class="font-mono-tech text-xs text-[#8F1D25] font-semibold">PROJECT SUBTITLE</p>
+          </div>
+
+          <!-- Metadata Matrix -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-[#ECECE6] border border-[#D8D8D5] font-mono-tech text-xs">
+            <div>
+              <span class="text-[#747474] block mb-0.5">ROLE //</span>
+              <span id="modalProjectRole" class="font-bold text-[#111111]">-</span>
+            </div>
+            <div>
+              <span class="text-[#747474] block mb-0.5">YEAR //</span>
+              <span id="modalProjectYear" class="font-bold text-[#111111]">-</span>
+            </div>
+            <div class="sm:col-span-2">
+              <span class="text-[#747474] block mb-0.5">STACK //</span>
+              <div id="modalProjectStack" class="flex flex-wrap gap-1 mt-1"></div>
+            </div>
+          </div>
+
+          <!-- Overview -->
+          <div>
+            <h4 class="font-mono-tech text-xs font-bold text-[#8F1D25] tracking-widest uppercase mb-2">// 01. EXECUTIVE OVERVIEW</h4>
+            <p id="modalProjectOverview" class="font-sans-ui text-sm sm:text-base text-[#333330] leading-relaxed"></p>
+          </div>
+
+          <!-- Problem & Solution Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="p-5 bg-[#ECECE6] border border-[#D8D8D5]">
+              <h4 class="font-mono-tech text-xs font-bold text-[#111111] tracking-widest uppercase mb-2">CHALLENGE &amp; PROBLEM</h4>
+              <p id="modalProjectProblem" class="font-sans-ui text-xs sm:text-sm text-[#4A4A46] leading-relaxed"></p>
+            </div>
+            <div class="p-5 bg-[#ECECE6] border border-[#D8D8D5]">
+              <h4 class="font-mono-tech text-xs font-bold text-[#8F1D25] tracking-widest uppercase mb-2">ENGINEERING SOLUTION</h4>
+              <p id="modalProjectSolution" class="font-sans-ui text-xs sm:text-sm text-[#4A4A46] leading-relaxed"></p>
+            </div>
+          </div>
+
+          <!-- Key Features -->
+          <div>
+            <h4 class="font-mono-tech text-xs font-bold text-[#8F1D25] tracking-widest uppercase mb-3">// 02. KEY SYSTEM CAPABILITIES</h4>
+            <ul id="modalProjectFeatures" class="space-y-2 font-sans-ui text-sm text-[#4A4A46]"></ul>
+          </div>
+
+          <!-- Architecture Notes -->
+          <div class="p-5 bg-[#ECECE6] border-l-2 border-[#8F1D25]">
+            <h4 class="font-mono-tech text-xs font-bold text-[#8F1D25] tracking-widest uppercase mb-1">ARCHITECTURE SPECIFICATION //</h4>
+            <p id="modalProjectArch" class="font-mono-tech text-xs text-[#111111] leading-relaxed"></p>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="pt-6 border-t border-[#D8D8D5] flex flex-wrap items-center gap-4">
+            <a id="modalLiveBtn" href="#" target="_blank" rel="noreferrer" class="btn-editorial-primary">
+              LAUNCH LIVE APPLICATION ↗
+            </a>
+            <a id="modalRepoBtn" href="#" target="_blank" rel="noreferrer" class="btn-editorial-outline">
+              INSPECT REPOSITORY ON GITHUB ↗
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+       TOAST NOTIFICATION
+       ========================================================================== -->
+    <div 
+      id="toastNotification" 
+      class="fixed bottom-6 right-6 z-50 p-4 bg-[#111111] text-[#F5F4F1] border-2 border-[#8F1D25] shadow-2xl font-mono-tech text-xs flex items-center gap-3 transition-all duration-300 transform translate-y-4 opacity-0 pointer-events-none"
+    >
+      <span class="w-2 h-2 bg-[#8F1D25] inline-block"></span>
+      <span id="toastMessage">COPIED TO CLIPBOARD</span>
+    </div>
+
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <!-- Application Logic -->
     <script src="./app.js"></script>
   </body>
-</html>
+</html>

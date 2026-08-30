@@ -45,29 +45,43 @@ const projects = [
     number: "002",
     title: "CMHS Portal",
     subtitle: "Institutional School Management & Academic Hub",
-    category: "Institution Management",
-    type: "multi",
+    category: "Full-Stack Educational Platform",
+    type: "app",
     image: "./Image/cmhs.png",
-    description: "A comprehensive institutional school management website featuring academic announcements, faculty directories, curriculum guides, and admissions portal.",
-    stack: ["HTML5", "CSS3", "JavaScript", "Responsive Layout"],
-    role: "Frontend Engineering & Layout Architecture",
+    description: "A full-stack institutional school management platform engineered with React 19, Express, MongoDB, Redis caching, JWT authentication, and containerized Docker deployment.",
+    stack: [
+      "React 19",
+      "Vite",
+      "React Router",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "Redis",
+      "JWT Auth",
+      "Docker",
+      "Docker Compose",
+      "Nginx"
+    ],
+    role: "Full-Stack Engineering & System Architecture",
     year: "2025",
     status: "DEPLOYED // PRODUCTION",
     live: "https://cmhs-nine.vercel.app/",
     repo: "https://github.com/SamiumBashir/cmhs",
-    highlight: "Multi-department academic portal with announcement feeds and faculty directory.",
+    highlight: "Containerized full-stack architecture with Redis caching, JWT auth, and React 19 interactive dashboards.",
     caseStudy: {
-      overview: "CMHS is an institutional web portal designed for an academic institution, serving students, parents, and administrative staff.",
-      problem: "Schools often have outdated, unorganized websites that make finding notices and faculty contacts difficult.",
-      solution: "Created an organized academic layout with an alert banner, categorized departments, and downloadable academic calendars.",
+      overview: "CMHS is a full-stack institutional portal engineered for academic management, serving faculty, students, and administration with high security and sub-millisecond query delivery.",
+      problem: "Traditional institutional portals suffer from fragmented authentication, slow database queries on heavy notice traffic, and monolithic deployment hurdles.",
+      solution: "Architected a decoupled React 19 frontend powered by Vite and Tailwind CSS, backed by a Node.js/Express REST API with Redis caching, MongoDB persistence, and isolated Docker Compose orchestration.",
       keyFeatures: [
-        "Notice board with time-stamped academic announcements",
-        "Faculty directory organized by academic department",
-        "Curriculum overview and admission criteria guidelines",
-        "Student achievement gallery and campus photo archives",
-        "Administrative contact directory with direct email links"
+        "React 19 client with Vite HMR and Framer Motion micro-interactions",
+        "JWT-secured role-based access control (RBAC) with HttpOnly cookies",
+        "Redis in-memory caching layer for lightning-fast academic notice delivery",
+        "MongoDB database schemas with Mongoose indexing and aggregation pipelines",
+        "Multi-container Docker Compose setup with Nginx reverse proxy and SSL"
       ],
-      architectureNotes: "Strict semantic hierarchy supporting screen readers and structured institutional archiving."
+      architectureNotes: "Decoupled client-server architecture with Docker containerization, Redis caching middleware, and Nginx reverse proxy load distribution."
     }
   },
   {

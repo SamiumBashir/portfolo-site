@@ -149,8 +149,38 @@ const projects = [
     }
   },
   {
-    id: "job-tracker",
+    id: "digitools",
     number: "004",
+    title: "DigiTools",
+    subtitle: "Digital Utility Suite & Web Workspace",
+    category: "React Web Application",
+    type: "app",
+    image: "./Image/digitool.png",
+    description: "A versatile suite of digital productivity tools and calculators built with modern React, modular components, and real-time state manipulation.",
+    stack: ["React 19", "Vite", "Tailwind CSS", "DaisyUI", "React Toastify"],
+    role: "React Engineering & Component System",
+    year: "2026",
+    status: "DEPLOYED // PRODUCTION",
+    live: "https://digi-tools-inky.vercel.app/",
+    repo: "https://github.com/SamiumBashir/DigiTools",
+    highlight: "Modular component pipeline allowing independent tool extension with shared design tokens.",
+    caseStudy: {
+      overview: "DigiTools is an extensible toolbox web app aggregating essential digital calculation, formatting, and conversion utilities into a unified interface.",
+      problem: "Users frequently switch between disconnected web tools with cluttered ads and inconsistent user experiences.",
+      solution: "Created an isolated tool-provider architecture in React 19 where each utility operates as an independent module sharing global theme contexts and notification feeds.",
+      keyFeatures: [
+        "Multi-utility tool dashboard with instant switching",
+        "Complex mathematical and formatting algorithms executed client-side",
+        "Toast notification system for user copy/paste and export actions",
+        "Strict input validation and sanitized output computation",
+        "Keyboard shortcut support for rapid utility workflows"
+      ],
+      architectureNotes: "Vite build pipeline optimized for sub-100ms hot reload and lightweight tree-shaken bundles."
+    }
+  },
+  {
+    id: "job-tracker",
+    number: "005",
     title: "Job Tracker",
     subtitle: "Application Pipeline & Lifecycle Dashboard",
     category: "Productivity System",
@@ -180,7 +210,7 @@ const projects = [
   },
   {
     id: "lumina",
-    number: "005",
+    number: "006",
     title: "Lumina Creative",
     subtitle: "Digital Design Agency & Case Studies Portal",
     category: "Creative Agency Showcase",
@@ -210,7 +240,7 @@ const projects = [
   },
   {
     id: "leno",
-    number: "006",
+    number: "007",
     title: "Leno",
     subtitle: "Mobile Application Landing & Conversion Portal",
     category: "Product Landing Page",
@@ -240,7 +270,7 @@ const projects = [
   },
   {
     id: "abacus",
-    number: "007",
+    number: "008",
     title: "Convention Center",
     subtitle: "Venue Management & Event Booking Showcase",
     category: "Venue Showcase",
@@ -270,7 +300,7 @@ const projects = [
   },
   {
     id: "tutor",
-    number: "008",
+    number: "009",
     title: "Tutor Website",
     subtitle: "Education Marketplace & Mentor Directory",
     category: "Education Platform",
@@ -416,6 +446,15 @@ const scrollProgress = document.getElementById("scroll-progress");
 const techCursor = document.getElementById("tech-cursor");
 const techFollower = document.getElementById("tech-cursor-follower");
 
+// Load More controls
+const loadMoreContainer = document.getElementById("loadMoreContainer");
+const loadMoreBtn = document.getElementById("loadMoreBtn");
+const loadMoreText = document.getElementById("loadMoreText");
+const loadMoreIcon = document.getElementById("loadMoreIcon");
+
+let isProjectsExpanded = false;
+let currentProjectFilter = "all";
+
 // Case study modal elements
 const caseStudyModal = document.getElementById("caseStudyModal");
 const modalCloseBtn = document.getElementById("modalCloseBtn");
@@ -471,12 +510,34 @@ function updateFilterCounts() {
 /* ==========================================================================
    RENDER SELECTED WORKS (PROJECTS)
    ========================================================================== */
-function renderProjects(filter = "all") {
+function renderProjects(filter = currentProjectFilter) {
+  currentProjectFilter = filter;
   const filtered = filter === "all"
     ? projects
     : projects.filter(p => p.type === filter);
 
-  projectGridElement.innerHTML = filtered.map((project, idx) => {
+  let displayed = filtered;
+
+  if (filter === "all") {
+    if (filtered.length > 3) {
+      if (loadMoreContainer) loadMoreContainer.style.display = "flex";
+      if (!isProjectsExpanded) {
+        displayed = filtered.slice(0, 3);
+        if (loadMoreText) loadMoreText.textContent = `LOAD MORE PROJECTS (${filtered.length - 3} MORE)`;
+        if (loadMoreIcon) loadMoreIcon.textContent = "↓";
+      } else {
+        displayed = filtered;
+        if (loadMoreText) loadMoreText.textContent = "SHOW LESS PROJECTS";
+        if (loadMoreIcon) loadMoreIcon.textContent = "↑";
+      }
+    } else {
+      if (loadMoreContainer) loadMoreContainer.style.display = "none";
+    }
+  } else {
+    if (loadMoreContainer) loadMoreContainer.style.display = "none";
+  }
+
+  projectGridElement.innerHTML = displayed.map((project, idx) => {
     const projectNum = project.number || String(idx + 1).padStart(3, "0");
     return `
     <article class="project-poster-card flex flex-col justify-between" data-project-id="${project.id}">
@@ -702,6 +763,22 @@ filterButtons.forEach(button => {
     renderProjects(button.dataset.filter);
   });
 });
+
+/* ==========================================================================
+   LOAD MORE / SHOW LESS CONTROLLER
+   ========================================================================== */
+if (loadMoreBtn) {
+  loadMoreBtn.addEventListener("click", () => {
+    isProjectsExpanded = !isProjectsExpanded;
+    renderProjects(currentProjectFilter);
+    if (!isProjectsExpanded) {
+      const projectsSection = document.getElementById("projects");
+      if (projectsSection) {
+        projectsSection.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  });
+}
 
 /* ==========================================================================
    MOBILE MENU CONTROLLER

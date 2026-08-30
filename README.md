@@ -50,32 +50,39 @@ The portfolio is architected around the concept of a **Developer Identity Dossie
 
 | ID | Project Name | Category | Primary Tech Stack | Live Demo | Repository |
 |:---|:---|:---|:---|:---:|:---:|
-| `001` | **PhulKini** | Floral E-Commerce Ecosystem | JavaScript, DOM Architecture, LocalStorage | [Live ↗](https://phul-kini.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/phulKini) |
+| `001` | **PhulKini** | Floral E-Commerce Ecosystem | JavaScript, Next.js, DOM Architecture, LocalStorage | [Live ↗](https://phul-kini.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/phulKini) |
 | `002` | **CMHS Portal** | Institutional School Management | HTML5, CSS3, JavaScript, Responsive Grid | [Live ↗](https://cmhs-nine.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/cmhs) |
 | `003` | **DigiTools** | Utility Suite & Web Workspace | React 19, Vite, Tailwind CSS, DaisyUI | [Live ↗](https://digi-tools-inky.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/DigiTools) |
 | `004` | **Job Tracker** | Career Pipeline Dashboard | JavaScript ES6+, Tailwind CSS, State Handlers | [Live ↗](https://job-tracker-xi-ashen.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/Job-Tracker-) |
 | `005` | **DocPresc** | Clinical Prescription Portal | TypeScript, React, Next.js, Tailwind CSS | [Preview ↗](#) | [GitHub ↗](https://github.com/SamiumBashir/docPresc) |
-| `006` | **Furniro** | Luxury Interior Showcase | HTML5, CSS3 Grid, JavaScript, Responsive UI | [Live ↗](https://furniro-pearl.vercel.app) | [GitHub ↗](https://github.com/SamiumBashir/Furniro) |
-| `007` | **Lumina Creative** | Creative Agency & Case Studies | HTML5, CSS3 BEM, JavaScript, Multi-Page | [Live ↗](https://lumina-creative-beta.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/Lumina-Creative) |
-| `008` | **Leno** | SaaS Mobile App Landing Page | HTML5, CSS3, JavaScript, Modal Controllers | [Live ↗](https://leno-web-rouge.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/Leno-) |
-| `009` | **Convention Center** | Venue Management Showcase | HTML5, Bootstrap 5, Custom CSS, JavaScript | [Live ↗](https://abacus-convention-center.netlify.app/) | [GitHub ↗](https://github.com/SamiumBashir/Abacus-Convention-Center) |
-| `010` | **Tutor Website** | Education Marketplace & Mentors | HTML5, CSS3, JavaScript, Grid Layout | [Live ↗](https://tw-tutor.netlify.app/) | [GitHub ↗](https://github.com/SamiumBashir/Tutor-Website) |
+| `006` | **Lumina Creative** | Creative Agency & Case Studies | HTML5, CSS3 BEM, JavaScript, Multi-Page | [Live ↗](https://lumina-creative-beta.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/Lumina-Creative) |
+| `007` | **Leno** | SaaS Mobile App Landing Page | HTML5, CSS3, JavaScript, Modal Controllers | [Live ↗](https://leno-web-rouge.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/Leno-) |
+| `008` | **Convention Center** | Venue Management Showcase | HTML5, Bootstrap 5, Custom CSS, JavaScript | [Live ↗](https://abacus-convention-center.netlify.app/) | [GitHub ↗](https://github.com/SamiumBashir/Abacus-Convention-Center) |
+| `009` | **Tutor Website** | Education Marketplace & Mentors | HTML5, CSS3, JavaScript, Grid Layout | [Live ↗](https://tw-tutor.netlify.app/) | [GitHub ↗](https://github.com/SamiumBashir/Tutor-Website) |
 
 ---
 
 ## 🛠️ Technical Skill Matrix
 
 ```
-┌─────────────────────────┬────────────────────────────────────────────────────────┐
-│ DOMAIN                  │ TECHNOLOGIES & COMPETENCIES                            │
-├─────────────────────────┼────────────────────────────────────────────────────────┤
-│ 01 / CORE SYSTEMS       │ HTML5 (Semantic/A11y), CSS3 (Grid/Flex), JavaScript    │
-│                         │ (ES6+/Async/DOM), TypeScript (Static Typing/Generics)  │
-│ 02 / FRAMEWORKS & UI    │ React 19, Next.js, Tailwind CSS, Bootstrap 5, DaisyUI  │
-│ 03 / TOOLCHAIN & OPS    │ Vite, Git / GitHub, Vercel, npm, Chrome DevTools       │
-│ 04 / CONCEPTS & ARCH    │ Component-Driven Architecture, Responsive Design,      │
-│                         │ State Management, Performance / CWV Optimization       │
-└─────────────────────────┴────────────────────────────────────────────────────────┘
+┌─────────────────────────────────┬────────────────────────────────────────────────────────┐
+│ DOMAIN                          │ TECHNOLOGIES & COMPETENCIES                            │
+├─────────────────────────────────┼────────────────────────────────────────────────────────┤
+│ 01 / CORE                       │ HTML5 (Semantic/A11y), CSS3 (Flexbox/Grid/Responsive), │
+│                                 │ JavaScript (ES6+/Async/DOM/Web APIs), TypeScript       │
+│ 02 / FRONTEND ENGINEERING       │ React 19, Next.js (App Router), React Router, Tailwind │
+│                                 │ CSS, Bootstrap, DaisyUI                                │
+│ 03 / MOTION & INTERACTION       │ GSAP (ScrollTrigger/Timelines), Framer Motion, Canvas  │
+│ 04 / BACKEND & DATA             │ Node.js, Express.js, MongoDB, Mongoose, Redis, REST    │
+│                                 │ APIs, Axios                                            │
+│ 05 / SECURITY & ARCHITECTURE    │ JWT Authentication, RBAC, Zod Validation, bcrypt,      │
+│                                 │ HttpOnly Cookies, Rate Limiting, Clean Architecture    │
+│ 06 / BROWSER & PLATFORM         │ Chrome Extension Development, Manifest V3, Chrome      │
+│                                 │ APIs, Service Workers, Content Scripts                 │
+│ 07 / DEVOPS & DEPLOYMENT        │ Git, GitHub, Vite, npm, Vercel, Docker, Docker Compose,│
+│                                 │ Nginx                                                  │
+│ 08 / INTEGRATIONS               │ Cloudinary, SSLCOMMERZ, MongoDB Atlas                  │
+└─────────────────────────────────┴────────────────────────────────────────────────────────┘
 ```
 
 ---

@@ -161,38 +161,8 @@ const projects = [
     }
   },
   {
-    id: "furniro",
-    number: "006",
-    title: "Furniro",
-    subtitle: "Architectural Interior & Furniture Showcase",
-    category: "E-Commerce UI",
-    type: "ui",
-    image: "./Image/furniro.png",
-    description: "A luxury furniture e-commerce website with product showcase grids, comparison drawers, interactive room visualization, and multi-page layouts.",
-    stack: ["HTML5", "CSS3", "JavaScript", "Responsive Grid"],
-    role: "UI/UX Engineering & Responsive Layouts",
-    year: "2025",
-    status: "DEPLOYED // PRODUCTION",
-    live: "https://furniro-pearl.vercel.app",
-    repo: "https://github.com/SamiumBashir/Furniro",
-    highlight: "Editorial product gallery layout with high-resolution imagery and smooth hover reveals.",
-    caseStudy: {
-      overview: "Furniro is an editorial e-commerce experience crafted to showcase premium furniture collections with high visual fidelity and structured typography.",
-      problem: "E-commerce furniture stores often overwhelm buyers with cluttered badges and uninspired grid templates.",
-      solution: "Engineered an editorial layout with asymmetric product highlights, clean typography scales, and modular multi-page routing.",
-      keyFeatures: [
-        "High-density responsive product matrix with quick-look overlays",
-        "Interactive product comparison specification drawer",
-        "Multi-page architecture including Shop, Product Detail, and Checkout",
-        "Custom responsive navigation with mobile drawer",
-        "Micro-animations on CTA triggers and image hover frames"
-      ],
-      architectureNotes: "CSS Grid and Flexbox orchestration without heavy framework overhead for instant page transitions."
-    }
-  },
-  {
     id: "lumina",
-    number: "007",
+    number: "006",
     title: "Lumina Creative",
     subtitle: "Digital Design Agency & Case Studies Portal",
     category: "Creative Agency Showcase",
@@ -222,7 +192,7 @@ const projects = [
   },
   {
     id: "leno",
-    number: "008",
+    number: "007",
     title: "Leno",
     subtitle: "Mobile Application Landing & Conversion Portal",
     category: "Product Landing Page",
@@ -252,7 +222,7 @@ const projects = [
   },
   {
     id: "abacus",
-    number: "009",
+    number: "008",
     title: "Convention Center",
     subtitle: "Venue Management & Event Booking Showcase",
     category: "Venue Showcase",
@@ -282,7 +252,7 @@ const projects = [
   },
   {
     id: "tutor",
-    number: "010",
+    number: "009",
     title: "Tutor Website",
     subtitle: "Education Marketplace & Mentor Directory",
     category: "Education Platform",
@@ -313,52 +283,107 @@ const projects = [
 ];
 
 /* ==========================================================================
-   SKILLS MATRIX DATA
+   SKILLS MATRIX DATA (TECHNICAL TOOLBOX)
    ========================================================================== */
 const skillMatrix = [
   {
     categoryNumber: "01",
-    categoryName: "CORE SYSTEMS",
-    categoryDesc: "Foundational web standards and language specifications for building robust applications.",
+    categoryName: "CORE",
+    categoryDesc: "Foundational web standards, language specifications, and typing systems.",
     skills: [
-      { name: "HTML5", tag: "SEMANTIC / A11Y", icon: "html5-plain" },
-      { name: "CSS3", tag: "MODERN GRID / FLEX", icon: "css3-plain" },
-      { name: "JavaScript", tag: "ES6+ / ASYNC / DOM", icon: "javascript-plain" },
-      { name: "TypeScript", tag: "STATIC TYPING / GENERICS", icon: "typescript-plain" }
+      { name: "HTML5", details: "Semantic HTML · Accessibility" },
+      { name: "CSS3", details: "Flexbox · Grid · Responsive Design" },
+      { name: "JavaScript", details: "ES6+ · Async/Await · DOM · Web APIs" },
+      { name: "TypeScript", details: "Types · Interfaces · Generics" }
     ]
   },
   {
     categoryNumber: "02",
-    categoryName: "FRAMEWORKS & UI",
-    categoryDesc: "Component architectures, utility-first styling systems, and component libraries.",
+    categoryName: "FRONTEND ENGINEERING",
+    categoryDesc: "Component architectures, modern frameworks, and UI utility systems.",
     skills: [
-      { name: "React 19", tag: "HOOKS / LIFECYCLE", icon: "react-original" },
-      { name: "Tailwind CSS", tag: "UTILITY ARCHITECTURE", icon: "tailwindcss-original" },
-      { name: "Bootstrap 5", tag: "RESPONSIVE GRID", icon: "bootstrap-plain" },
-      { name: "DaisyUI", tag: "COMPONENT TOKENS", icon: "devicon-plain" }
+      { name: "React", details: "React 19 · Hooks · Component Architecture" },
+      { name: "Next.js", details: "App Router · Server/Client Components" },
+      { name: "React Router", details: "Dynamic Routing · Layouts" },
+      { name: "Tailwind CSS", details: "Utility-First Design Tokens" },
+      { name: "Bootstrap", details: "Responsive Grid & Components" },
+      { name: "DaisyUI", details: "Semantic Component Tokens" }
     ]
   },
   {
     categoryNumber: "03",
-    categoryName: "TOOLCHAIN & DEPLOYMENT",
-    categoryDesc: "Version control, build automation, and serverless hosting environments.",
+    categoryName: "MOTION & INTERACTION",
+    categoryDesc: "High-performance animations, scroll choreography, and interactive physics.",
     skills: [
-      { name: "Git", tag: "VERSION CONTROL", icon: "git-plain" },
-      { name: "GitHub", tag: "COLLABORATION & CI", icon: "github-original" },
-      { name: "Vercel", tag: "SERVERLESS & CI/CD", icon: "vercel-original" },
-      { name: "Netlify", tag: "EDGE DEPLOYMENTS", icon: "netlify-plain" },
-      { name: "Vite", tag: "BUNDLER & HMR", icon: "vitejs-plain" }
+      { name: "GSAP", details: "ScrollTrigger · Timelines · Staggers" },
+      { name: "Framer Motion", details: "Layout Animations · Gestures" },
+      { name: "Canvas / DOM Animation", details: "Interactive Micro-Interactions" }
     ]
   },
   {
     categoryNumber: "04",
-    categoryName: "CONCEPTS & ARCHITECTURE",
-    categoryDesc: "Engineering methodologies ensuring scalable, maintainable, and high-performance software.",
+    categoryName: "BACKEND & DATA",
+    categoryDesc: "Server runtimes, RESTful services, database engines, and in-memory caches.",
     skills: [
-      { name: "Component Architecture", tag: "ATOMIC & MODULAR", icon: "code-branch" },
-      { name: "Responsive Systems", tag: "FLUID BREAKPOINTS", icon: "devices" },
-      { name: "REST API Integration", tag: "DATA CONTRACTS", icon: "network" },
-      { name: "BEM Methodology", tag: "SCOPED CSS", icon: "layers" }
+      { name: "Node.js", details: "Event Loop · Asynchronous I/O" },
+      { name: "Express.js", details: "Routing · API Middleware" },
+      { name: "MongoDB", details: "NoSQL Database · Aggregations" },
+      { name: "Mongoose", details: "Schema Modeling · Validation" },
+      { name: "Redis", details: "In-Memory Caching · Fast I/O" },
+      { name: "REST APIs", details: "Endpoint Architecture · Protocols" },
+      { name: "Axios", details: "HTTP Client · Interceptor Pipeline" }
+    ]
+  },
+  {
+    categoryNumber: "05",
+    categoryName: "SECURITY & ARCHITECTURE",
+    categoryDesc: "Authentication protocols, validation schemas, and clean architectural design.",
+    skills: [
+      { name: "JWT Authentication", details: "Token Lifecycle · Payload Verify" },
+      { name: "RBAC", details: "Role-Based Access Control" },
+      { name: "Zod Validation", details: "Schema Parsing · Runtime Type Safety" },
+      { name: "bcrypt", details: "Password Hashing · Salt Rounds" },
+      { name: "HttpOnly Cookies", details: "XSS & CSRF Mitigation" },
+      { name: "Rate Limiting", details: "Brute-Force & DDoS Protection" },
+      { name: "Clean Architecture", details: "Separation of Concerns · Modularity" },
+      { name: "API Middleware Architecture", details: "Pipeline Handlers · Error Guards" }
+    ]
+  },
+  {
+    categoryNumber: "06",
+    categoryName: "BROWSER & PLATFORM",
+    categoryDesc: "Browser platform extensions, background worker pipelines, and DOM scripts.",
+    skills: [
+      { name: "Chrome Extension Development", details: "Extension Lifecycle · Web Store" },
+      { name: "Manifest V3", details: "Declarative Net Request · Modern Spec" },
+      { name: "Chrome APIs", details: "Tabs · Storage · Runtime · Alarms" },
+      { name: "Service Workers", details: "Background Event Sync & Lifecycles" },
+      { name: "Content Scripts", details: "DOM Injection · Message Passing" }
+    ]
+  },
+  {
+    categoryNumber: "07",
+    categoryName: "DEVOPS & DEPLOYMENT",
+    categoryDesc: "Version control, containerization, build toolchains, and edge deployment.",
+    skills: [
+      { name: "Git", details: "Version Control · Branching Strategy" },
+      { name: "GitHub", details: "CI/CD Actions · Code Reviews" },
+      { name: "Vite", details: "Lightning Fast Bundling & HMR" },
+      { name: "npm", details: "Package Ecosystem Management" },
+      { name: "Vercel", details: "Edge Network · Serverless Delivery" },
+      { name: "Docker", details: "Containerization · Image Builds" },
+      { name: "Docker Compose", details: "Multi-Service Orchestration" },
+      { name: "Nginx", details: "Reverse Proxy · Web Server" }
+    ]
+  },
+  {
+    categoryNumber: "08",
+    categoryName: "INTEGRATIONS",
+    categoryDesc: "Third-party cloud infrastructure, media delivery CDNs, and payment gateways.",
+    skills: [
+      { name: "Cloudinary", details: "Media Asset CDN · Transformations" },
+      { name: "SSLCOMMERZ", details: "Payment Gateway · Transactions" },
+      { name: "MongoDB Atlas", details: "Managed Cloud Clusters & Backups" }
     ]
   }
 ];
@@ -401,6 +426,31 @@ const toastNotification = document.getElementById("toastNotification");
 const toastMessage = document.getElementById("toastMessage");
 
 /* ==========================================================================
+   DYNAMIC TELEMETRY & FILTER COUNTS
+   ========================================================================== */
+function updateFilterCounts() {
+  const total = String(projects.length).padStart(2, "0");
+  const apps = String(projects.filter(p => p.type === "app").length).padStart(2, "0");
+  const ui = String(projects.filter(p => p.type === "ui").length).padStart(2, "0");
+  const multi = String(projects.filter(p => p.type === "multi").length).padStart(2, "0");
+
+  const btnAll = document.querySelector('[data-filter="all"]');
+  const btnApp = document.querySelector('[data-filter="app"]');
+  const btnUi = document.querySelector('[data-filter="ui"]');
+  const btnMulti = document.querySelector('[data-filter="multi"]');
+
+  if (btnAll) btnAll.textContent = `ALL // ${total}`;
+  if (btnApp) btnApp.textContent = `APPS // ${apps}`;
+  if (btnUi) btnUi.textContent = `UI/UX // ${ui}`;
+  if (btnMulti) btnMulti.textContent = `MULTI-PAGE // ${multi}`;
+
+  const heroCountEl = document.getElementById("heroProjectCount");
+  if (heroCountEl) {
+    heroCountEl.textContent = `${total}+`;
+  }
+}
+
+/* ==========================================================================
    RENDER SELECTED WORKS (PROJECTS)
    ========================================================================== */
 function renderProjects(filter = "all") {
@@ -408,13 +458,15 @@ function renderProjects(filter = "all") {
     ? projects
     : projects.filter(p => p.type === filter);
 
-  projectGridElement.innerHTML = filtered.map((project) => `
+  projectGridElement.innerHTML = filtered.map((project, idx) => {
+    const projectNum = project.number || String(idx + 1).padStart(3, "0");
+    return `
     <article class="project-poster-card flex flex-col justify-between" data-project-id="${project.id}">
       <div>
         <!-- Top Bar with Number & Category -->
         <div class="p-4 border-b border-[#D8D8D5] flex items-center justify-between bg-[#E6E6DF]">
           <div class="flex items-center gap-2">
-            <span class="font-mono-tech text-xs font-bold text-[#8F1D25]">PROJECT / ${project.number}</span>
+            <span class="font-mono-tech text-xs font-bold text-[#8F1D25]">PROJECT / ${projectNum}</span>
             <span class="text-[#747474] text-xs">/</span>
             <span class="font-mono-tech text-xs text-[#747474] uppercase">${project.status}</span>
           </div>
@@ -488,7 +540,8 @@ function renderProjects(filter = "all") {
         </div>
       </div>
     </article>
-  `).join('');
+  `;
+  }).join('');
 
   // Animate newly injected cards
   gsap.fromTo(".project-poster-card",
@@ -508,20 +561,23 @@ function renderSkills() {
           <span class="font-mono-tech text-xs font-bold text-[#8F1D25]">${cat.categoryNumber} //</span>
           <span class="font-mono-tech text-xs font-bold uppercase tracking-wider text-[#111111]">${cat.categoryName}</span>
         </div>
-        <p class="font-sans-ui text-xs text-[#747474] mb-5 leading-relaxed">${cat.categoryDesc}</p>
+        <p class="font-sans-ui text-xs text-[#747474] mb-4 leading-relaxed">${cat.categoryDesc}</p>
         
-        <div class="flex flex-col gap-2.5">
+        <div class="flex flex-col gap-2">
           ${cat.skills.map(s => `
-            <div class="skill-pill justify-between">
-              <span class="font-bold text-[#111111]">${s.name}</span>
-              <span class="text-[0.65rem] text-[#8F1D25] font-mono">${s.tag}</span>
+            <div class="skill-pill flex-col !items-start !gap-0.5 w-full">
+              <div class="flex items-center justify-between w-full">
+                <span class="font-bold text-[#111111] text-xs">${s.name}</span>
+                <span class="w-1.5 h-1.5 bg-[#8F1D25] rounded-full opacity-60"></span>
+              </div>
+              ${s.details ? `<span class="text-[0.6875rem] text-[#666662] font-mono-tech leading-tight">${s.details}</span>` : ''}
             </div>
           `).join('')}
         </div>
       </div>
-      <div class="mt-6 pt-3 border-t border-[#D8D8D5] flex items-center justify-between">
-        <span class="font-mono-tech text-[0.65rem] text-[#747474]">VERIFIED CAPABILITY</span>
-        <span class="w-1.5 h-1.5 rounded-full bg-[#8F1D25]"></span>
+      <div class="mt-5 pt-3 border-t border-[#D8D8D5] flex items-center justify-between font-mono-tech text-[0.65rem] text-[#747474]">
+        <span>TOTAL: ${String(cat.skills.length).padStart(2, "0")} NODES</span>
+        <span class="text-[#8F1D25] font-bold">VERIFIED [●]</span>
       </div>
     </div>
   `).join('');
@@ -777,6 +833,7 @@ function initGSAPEditorial() {
    INITIALIZATION
    ========================================================================== */
 document.addEventListener("DOMContentLoaded", () => {
+  updateFilterCounts();
   renderProjects();
   renderSkills();
   initGSAPEditorial();

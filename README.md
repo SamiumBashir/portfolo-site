@@ -52,13 +52,12 @@ The portfolio is architected around the concept of a **Developer Identity Dossie
 |:---|:---|:---|:---|:---:|:---:|
 | `001` | **PhulKini** | Full-Stack Floral E-Commerce | Next.js 15, React 19, MongoDB, Redis, SSLCOMMERZ, Cloudinary | [Live ↗](https://phul-kini.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/phulKini) |
 | `002` | **CMHS Portal** | Full-Stack Educational Platform | React 19, Node.js, Express, MongoDB, Redis, Docker | [Live ↗](https://cmhs-nine.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/cmhs) |
-| `003` | **DigiTools** | Utility Suite & Web Workspace | React 19, Vite, Tailwind CSS, DaisyUI | [Live ↗](https://digi-tools-inky.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/DigiTools) |
+| `003` | **DocPresc** | Full-Stack Healthcare System | React 18, TypeScript, Node.js, Express, MongoDB (In-Memory Fallback), jsPDF | [Preview ↗](#) | [GitHub ↗](https://github.com/SamiumBashir/docPresc) |
 | `004` | **Job Tracker** | Career Pipeline Dashboard | JavaScript ES6+, Tailwind CSS, State Handlers | [Live ↗](https://job-tracker-xi-ashen.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/Job-Tracker-) |
-| `005` | **DocPresc** | Clinical Prescription Portal | TypeScript, React, Next.js, Tailwind CSS | [Preview ↗](#) | [GitHub ↗](https://github.com/SamiumBashir/docPresc) |
-| `006` | **Lumina Creative** | Creative Agency & Case Studies | HTML5, CSS3 BEM, JavaScript, Multi-Page | [Live ↗](https://lumina-creative-beta.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/Lumina-Creative) |
-| `007` | **Leno** | SaaS Mobile App Landing Page | HTML5, CSS3, JavaScript, Modal Controllers | [Live ↗](https://leno-web-rouge.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/Leno-) |
-| `008` | **Convention Center** | Venue Management Showcase | HTML5, Bootstrap 5, Custom CSS, JavaScript | [Live ↗](https://abacus-convention-center.netlify.app/) | [GitHub ↗](https://github.com/SamiumBashir/Abacus-Convention-Center) |
-| `009` | **Tutor Website** | Education Marketplace & Mentors | HTML5, CSS3, JavaScript, Grid Layout | [Live ↗](https://tw-tutor.netlify.app/) | [GitHub ↗](https://github.com/SamiumBashir/Tutor-Website) |
+| `005` | **Lumina Creative** | Creative Agency & Case Studies | HTML5, CSS3 BEM, JavaScript, Multi-Page | [Live ↗](https://lumina-creative-beta.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/Lumina-Creative) |
+| `006` | **Leno** | SaaS Mobile App Landing Page | HTML5, CSS3, JavaScript, Modal Controllers | [Live ↗](https://leno-web-rouge.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/Leno-) |
+| `007` | **Convention Center** | Venue Management Showcase | HTML5, Bootstrap 5, Custom CSS, JavaScript | [Live ↗](https://abacus-convention-center.netlify.app/) | [GitHub ↗](https://github.com/SamiumBashir/Abacus-Convention-Center) |
+| `008` | **Tutor Website** | Education Marketplace & Mentors | HTML5, CSS3, JavaScript, Grid Layout | [Live ↗](https://tw-tutor.netlify.app/) | [GitHub ↗](https://github.com/SamiumBashir/Tutor-Website) |
 
 ---
 

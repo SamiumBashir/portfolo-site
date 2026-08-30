@@ -102,33 +102,50 @@ const projects = [
     }
   },
   {
-    id: "digitools",
+    id: "docpresc",
     number: "003",
-    title: "DigiTools",
-    subtitle: "Digital Utility Suite & Web Workspace",
-    category: "React Web Application",
+    title: "DocPresc",
+    subtitle: "Clinical Prescription & Patient Records Portal",
+    category: "Full-Stack Healthcare System",
     type: "app",
-    image: "./Image/digitool.png",
-    description: "A versatile suite of digital productivity tools and calculators built with modern React, modular components, and real-time state manipulation.",
-    stack: ["React 19", "Vite", "Tailwind CSS", "DaisyUI", "React Toastify"],
-    role: "React Engineering & Component System",
+    image: "./Image/docpresc.png",
+    description: "A full-stack clinical prescription and patient management system built with React 18, TypeScript, Vite, Node.js, Express, MongoDB/Mongoose with in-memory database fallback, JWT authentication, and PDF/QR export.",
+    stack: [
+      "React 18",
+      "TypeScript",
+      "Vite",
+      "Tailwind CSS",
+      "Lucide Icons",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Mongoose",
+      "Zod",
+      "JWT Auth",
+      "jsPDF",
+      "html2canvas",
+      "QR Code"
+    ],
+    role: "Full-Stack TypeScript Architecture",
     year: "2026",
-    status: "DEPLOYED // PRODUCTION",
-    live: "https://digi-tools-inky.vercel.app/",
-    repo: "https://github.com/SamiumBashir/DigiTools",
-    highlight: "Modular component pipeline allowing independent tool extension with shared design tokens.",
+    status: "IN DEVELOPMENT // ACTIVE",
+    live: "#",
+    repo: "https://github.com/SamiumBashir/docPresc",
+    highlight: "Full-stack TypeScript clinical platform with in-memory DB fallback, Zod validation, and vector PDF/QR prescription generation.",
     caseStudy: {
-      overview: "DigiTools is an extensible toolbox web app aggregating essential digital calculation, formatting, and conversion utilities into a unified interface.",
-      problem: "Users frequently switch between disconnected web tools with cluttered ads and inconsistent user experiences.",
-      solution: "Created an isolated tool-provider architecture in React 19 where each utility operates as an independent module sharing global theme contexts and notification feeds.",
+      overview: "DocPresc is a full-stack clinical prescription and patient management portal engineered for medical practitioners. It delivers strict type safety from frontend React components to backend Express API controllers, with automated in-memory MongoDB fallback for zero-configuration execution.",
+      problem: "Medical software often suffers from complex local database installation prerequisites, runtime validation errors in dosage fields, and clunky printing workflows.",
+      solution: "Constructed an end-to-end TypeScript architecture powered by React 18 and Vite on the client, with an Express/Node.js backend featuring dual-mode MongoDB (Atlas/In-Memory fallback), Zod schema validation, JWT auth, and vector PDF/QR code prescription generation.",
       keyFeatures: [
-        "Multi-utility tool dashboard with instant switching",
-        "Complex mathematical and formatting algorithms executed client-side",
-        "Toast notification system for user copy/paste and export actions",
-        "Strict input validation and sanitized output computation",
-        "Keyboard shortcut support for rapid utility workflows"
+        "React 18 & TypeScript frontend with Vite HMR and Lucide Icons",
+        "Node.js & Express.js backend with strict TypeScript interfaces and Zod validation",
+        "MongoDB & Mongoose with automated in-memory database fallback for zero-config run",
+        "Secure JWT Authentication with role-based clinical access",
+        "Client-side high-resolution PDF generation via jsPDF and html2canvas",
+        "Dynamic QR Code verification stamp on generated clinical prescriptions",
+        "Standardized medication dosage selector with frequency and duration controls"
       ],
-      architectureNotes: "Vite build pipeline optimized for sub-100ms hot reload and lightweight tree-shaken bundles."
+      architectureNotes: "Full-stack TypeScript interfaces shared across layers, with in-memory MongoDB fallback enabling instant standalone offline/online clinical operation."
     }
   },
   {
@@ -162,38 +179,8 @@ const projects = [
     }
   },
   {
-    id: "docpresc",
-    number: "005",
-    title: "DocPresc",
-    subtitle: "Clinical Prescription & Patient Records Portal",
-    category: "Healthcare Application",
-    type: "app",
-    image: "./Image/docpresc.png",
-    description: "A digital prescription management platform with strict TypeScript data structures, role-based patient lookup, and streamlined dosage formatting.",
-    stack: ["TypeScript", "React", "Next.js", "Tailwind CSS"],
-    role: "TypeScript Frontend Architecture",
-    year: "2026",
-    status: "IN DEVELOPMENT // ACTIVE",
-    live: "#",
-    repo: "https://github.com/SamiumBashir/docPresc",
-    highlight: "Type-safe medication catalog with dosage calculation and printable prescription layout.",
-    caseStudy: {
-      overview: "DocPresc digitizes medical prescriptions for clinical practitioners, eliminating legibility errors and standardizing medication administration records.",
-      problem: "Handwritten clinical prescriptions cause dispensing mistakes and record fragmentation across clinics.",
-      solution: "Built a type-safe TypeScript web application with strictly defined interfaces for patients, diagnosis codes, and medication dosage intervals.",
-      keyFeatures: [
-        "Patient directory with historical prescription recall",
-        "Standardized medication dosage selector with timing intervals",
-        "Print-ready clinical layout with QR verification stamp",
-        "Type-checked form fields preventing dosage omissions",
-        "Diagnostic note templates for rapid physician drafting"
-      ],
-      architectureNotes: "Strict TypeScript interfaces ensure zero runtime undefined errors during prescription generation."
-    }
-  },
-  {
     id: "lumina",
-    number: "006",
+    number: "005",
     title: "Lumina Creative",
     subtitle: "Digital Design Agency & Case Studies Portal",
     category: "Creative Agency Showcase",
@@ -223,7 +210,7 @@ const projects = [
   },
   {
     id: "leno",
-    number: "007",
+    number: "006",
     title: "Leno",
     subtitle: "Mobile Application Landing & Conversion Portal",
     category: "Product Landing Page",
@@ -253,7 +240,7 @@ const projects = [
   },
   {
     id: "abacus",
-    number: "008",
+    number: "007",
     title: "Convention Center",
     subtitle: "Venue Management & Event Booking Showcase",
     category: "Venue Showcase",
@@ -283,7 +270,7 @@ const projects = [
   },
   {
     id: "tutor",
-    number: "009",
+    number: "008",
     title: "Tutor Website",
     subtitle: "Education Marketplace & Mentor Directory",
     category: "Education Platform",

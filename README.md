@@ -50,7 +50,7 @@ The portfolio is architected around the concept of a **Developer Identity Dossie
 
 | ID | Project Name | Category | Primary Tech Stack | Live Demo | Repository |
 |:---|:---|:---|:---|:---:|:---:|
-| `001` | **PhulKini** | Floral E-Commerce Ecosystem | JavaScript, Next.js, DOM Architecture, LocalStorage | [Live ↗](https://phul-kini.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/phulKini) |
+| `001` | **PhulKini** | Full-Stack Floral E-Commerce | Next.js 15, React 19, MongoDB, Redis, SSLCOMMERZ, Cloudinary | [Live ↗](https://phul-kini.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/phulKini) |
 | `002` | **CMHS Portal** | Full-Stack Educational Platform | React 19, Node.js, Express, MongoDB, Redis, Docker | [Live ↗](https://cmhs-nine.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/cmhs) |
 | `003` | **DigiTools** | Utility Suite & Web Workspace | React 19, Vite, Tailwind CSS, DaisyUI | [Live ↗](https://digi-tools-inky.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/DigiTools) |
 | `004` | **Job Tracker** | Career Pipeline Dashboard | JavaScript ES6+, Tailwind CSS, State Handlers | [Live ↗](https://job-tracker-xi-ashen.vercel.app/) | [GitHub ↗](https://github.com/SamiumBashir/Job-Tracker-) |

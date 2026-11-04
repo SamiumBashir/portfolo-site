@@ -42,8 +42,18 @@ export default function FloatingChatWidget({ onOpenAdmin }) {
   const [typingAuthor, setTypingAuthor] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
   const [adminState, setAdminState] = useState(getAdminState());
+  const [serverSettings, setServerSettings] = useState({
+    isOnline: true,
+    aiAutoReply: true,
+    isThreadAiDisabled: false,
+  });
 
   const messagesEndRef = useRef(null);
+  const serverSettingsRef = useRef(serverSettings);
+
+  useEffect(() => {
+    serverSettingsRef.current = serverSettings;
+  }, [serverSettings]);
 
   // Initialize messages on mount
   useEffect(() => {
@@ -83,7 +93,7 @@ export default function FloatingChatWidget({ onOpenAdmin }) {
       }
     });
 
-    // 2. Continuous Cloud Auto-Sync with MongoDB Atlas
+    // 2. Continuous Cloud Auto-Sync with MongoDB Atlas (Messages & Settings)
     const stopSync = chatService.startAutoSync({
       sessionId,
       admin: false,
@@ -108,6 +118,17 @@ export default function FloatingChatWidget({ onOpenAdmin }) {
           saveStoredMessages(merged);
           return merged;
         });
+      },
+      onSettingsUpdate: (settings) => {
+        setServerSettings((prev) => ({
+          ...prev,
+          isOnline: settings.isOnline ?? prev.isOnline,
+          aiAutoReply: settings.aiAutoReply ?? prev.aiAutoReply,
+          isThreadAiDisabled: settings.isThreadAiDisabled ?? prev.isThreadAiDisabled,
+        }));
+        if (settings.statusMessage) {
+          setAdminState((prev) => ({ ...prev, statusMessage: settings.statusMessage }));
+        }
       },
     });
 
@@ -153,12 +174,24 @@ export default function FloatingChatWidget({ onOpenAdmin }) {
     chatService.sendMessage(userMsg);
     setInputText('');
 
-    // Trigger AI Auto-Reply if enabled
-    if (adminState.aiAutoReply) {
+    // Trigger AI Auto-Reply ONLY IF enabled globally AND NOT disabled for this thread
+    const canAiReply =
+      serverSettingsRef.current.aiAutoReply && !serverSettingsRef.current.isThreadAiDisabled;
+
+    if (canAiReply) {
       setIsTyping(true);
       setTypingAuthor('Samium AI');
 
       setTimeout(() => {
+        // Double check in case settings changed during the timeout
+        if (
+          !serverSettingsRef.current.aiAutoReply ||
+          serverSettingsRef.current.isThreadAiDisabled
+        ) {
+          setIsTyping(false);
+          return;
+        }
+
         setIsTyping(false);
         const replyText = generateAiResponse(content);
         const botMsg = {
@@ -345,9 +378,15 @@ export default function FloatingChatWidget({ onOpenAdmin }) {
               </div>
             </div>
 
-            {/* Sub-banner: "We typically reply in few minutes." */}
+            {/* Sub-banner */}
             <div className="mt-2.5 pt-2 border-t border-[#2A2A2A] font-mono-tech text-[0.68rem] text-[#888888] flex items-center justify-between">
-              <span>{adminState.statusMessage || 'We typically reply in few minutes.'}</span>
+              <span>
+                {serverSettings.isThreadAiDisabled
+                  ? 'Direct Live Chat with Samium (AI Paused)'
+                  : !serverSettings.aiAutoReply
+                  ? 'Direct Chat with Samium (AI Paused)'
+                  : adminState.statusMessage || 'We typically reply in few minutes.'}
+              </span>
               <span className="text-[0.65rem] bg-[#1A1A1A] border border-[#333333] text-[#8F1D25] px-2 py-0.5 rounded font-mono font-bold">
                 COMM // LIVE
               </span>
@@ -537,10 +576,30 @@ export default function FloatingChatWidget({ onOpenAdmin }) {
                 <button
                   type="button"
                   className="hover:text-[#8F1D25] transition-colors cursor-pointer flex items-center gap-1"
-                  title="AI Auto-Reply Active"
+                  title={
+                    !serverSettings.aiAutoReply || serverSettings.isThreadAiDisabled
+                      ? 'AI Auto-Reply is Paused'
+                      : 'AI Auto-Reply Active'
+                  }
                 >
-                  <Bot className="w-3.5 h-3.5 text-[#8F1D25]" />
-                  <span className="text-[0.62rem]">AI ACTIVE</span>
+                  <Bot
+                    className={`w-3.5 h-3.5 ${
+                      !serverSettings.aiAutoReply || serverSettings.isThreadAiDisabled
+                        ? 'text-neutral-400'
+                        : 'text-[#8F1D25]'
+                    }`}
+                  />
+                  <span
+                    className={`text-[0.62rem] font-bold ${
+                      !serverSettings.aiAutoReply || serverSettings.isThreadAiDisabled
+                        ? 'text-neutral-500'
+                        : 'text-[#8F1D25]'
+                    }`}
+                  >
+                    {!serverSettings.aiAutoReply || serverSettings.isThreadAiDisabled
+                      ? 'AI PAUSED'
+                      : 'AI ACTIVE'}
+                  </span>
                 </button>
                 <button
                   type="button"

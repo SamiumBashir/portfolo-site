@@ -58,13 +58,13 @@ const DEFAULT_ADMIN_STATE = {
   aiAutoReply: true,
   statusMessage: 'Typically replies in a few minutes',
   whatsappNumber: CONTACT_CONFIG.whatsappNumber,
+  disabledThreads: [],
 };
 
 export function getAdminState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_ADMIN_STATE);
     const state = raw ? { ...DEFAULT_ADMIN_STATE, ...JSON.parse(raw) } : { ...DEFAULT_ADMIN_STATE };
-    // Automatically replace old placeholder with verified real number
     if (!state.whatsappNumber || state.whatsappNumber === '8801700000000') {
       state.whatsappNumber = CONTACT_CONFIG.whatsappNumber;
       localStorage.setItem(STORAGE_KEY_ADMIN_STATE, JSON.stringify(state));
@@ -167,12 +167,47 @@ export async function fetchCloudMessages({ sessionId, admin = false } = {}) {
     }
 
     const res = await fetch(`/api/chat?${params.toString()}`);
-    if (!res.ok) return [];
+    if (!res.ok) return { messages: [], settings: null };
     const data = await res.json();
-    return Array.isArray(data.messages) ? data.messages : [];
+    return {
+      messages: Array.isArray(data.messages) ? data.messages : [],
+      settings: data.settings || null,
+    };
   } catch (err) {
     console.warn('fetchCloudMessages network error:', err.message);
-    return [];
+    return { messages: [], settings: null };
+  }
+}
+
+export async function updateCloudAdminSettings(settings) {
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'update_settings', ...settings }),
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.settings || null;
+  } catch (err) {
+    console.warn('updateCloudAdminSettings error:', err.message);
+    return null;
+  }
+}
+
+export async function toggleCloudThreadAi(sessionId, disableAi) {
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'toggle_thread_ai', sessionId, disableAi }),
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.warn('toggleCloudThreadAi error:', err.message);
+    return null;
   }
 }
 
@@ -305,16 +340,19 @@ class ChatService {
   }
 
   // Auto-sync polling loop
-  startAutoSync({ sessionId, admin = false, interval = 2500, onUpdate } = {}) {
+  startAutoSync({ sessionId, admin = false, interval = 2500, onUpdate, onSettingsUpdate } = {}) {
     let isFetching = false;
 
     const performSync = async () => {
       if (isFetching) return;
       isFetching = true;
       try {
-        const cloudMsgs = await fetchCloudMessages({ sessionId, admin });
-        if (Array.isArray(cloudMsgs) && onUpdate) {
-          onUpdate(cloudMsgs);
+        const result = await fetchCloudMessages({ sessionId, admin });
+        if (result && Array.isArray(result.messages) && onUpdate) {
+          onUpdate(result.messages);
+        }
+        if (result && result.settings && onSettingsUpdate) {
+          onSettingsUpdate(result.settings);
         }
       } catch (e) {
         // silent error handling

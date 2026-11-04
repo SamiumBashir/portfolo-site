@@ -38,6 +38,8 @@ import {
   chatService,
   playNotificationChime,
   deleteCloudMessages,
+  updateCloudAdminSettings,
+  toggleCloudThreadAi,
 } from '../services/chatEngine';
 
 export default function AdminPanel({ isOpen, onClose }) {
@@ -80,6 +82,7 @@ export default function AdminPanel({ isOpen, onClose }) {
   // Chat Telemetry State
   const [chatMessages, setChatMessages] = useState([]);
   const [adminState, setAdminState] = useState(getAdminState());
+  const [disabledThreads, setDisabledThreads] = useState([]);
   const [selectedSessionId, setSelectedSessionId] = useState('all');
   const [chatReply, setChatReply] = useState('');
   const [chatPhoneInput, setChatPhoneInput] = useState(
@@ -146,6 +149,17 @@ export default function AdminPanel({ isOpen, onClose }) {
           return merged;
         });
       },
+      onSettingsUpdate: (settings) => {
+        if (Array.isArray(settings.disabledThreads)) {
+          setDisabledThreads(settings.disabledThreads);
+        }
+        if (settings.aiAutoReply !== undefined) {
+          setAdminState((prev) => ({ ...prev, aiAutoReply: settings.aiAutoReply }));
+        }
+        if (settings.isOnline !== undefined) {
+          setAdminState((prev) => ({ ...prev, isOnline: settings.isOnline }));
+        }
+      },
     });
 
     return () => {
@@ -153,6 +167,41 @@ export default function AdminPanel({ isOpen, onClose }) {
       stopSync();
     };
   }, [isOpen]);
+
+  // Toggle Global AI Auto-Reply and persist to Cloud
+  const handleToggleGlobalAi = async () => {
+    const nextVal = !adminState.aiAutoReply;
+    const updated = { ...adminState, aiAutoReply: nextVal };
+    setAdminState(updated);
+    saveAdminState(updated);
+    await updateCloudAdminSettings({ aiAutoReply: nextVal });
+  };
+
+  // Toggle Global Online Status and persist to Cloud
+  const handleToggleOnlineStatus = async () => {
+    const nextVal = !adminState.isOnline;
+    const updated = { ...adminState, isOnline: nextVal };
+    setAdminState(updated);
+    saveAdminState(updated);
+    await updateCloudAdminSettings({ isOnline: nextVal });
+  };
+
+  // Toggle AI Auto-Reply for a Specific Visitor Thread and persist to Cloud
+  const handleToggleThreadAi = async (sessionId) => {
+    if (!sessionId || sessionId === 'all') return;
+    const isCurrentlyDisabled = disabledThreads.includes(sessionId);
+    const willDisable = !isCurrentlyDisabled;
+
+    // Optimistic UI state
+    setDisabledThreads((prev) =>
+      willDisable ? [...prev, sessionId] : prev.filter((id) => id !== sessionId)
+    );
+
+    const res = await toggleCloudThreadAi(sessionId, willDisable);
+    if (res && Array.isArray(res.disabledThreads)) {
+      setDisabledThreads(res.disabledThreads);
+    }
+  };
 
   // Extract distinct visitor threads
   const visitorSessions = React.useMemo(() => {
@@ -966,11 +1015,7 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
                             ACTIVE STATUS
                           </span>
                           <button
-                            onClick={() => {
-                              const updated = { ...adminState, isOnline: !adminState.isOnline };
-                              setAdminState(updated);
-                              saveAdminState(updated);
-                            }}
+                            onClick={handleToggleOnlineStatus}
                             className={`font-mono-tech text-[0.65rem] px-2.5 py-1 border font-bold uppercase cursor-pointer ${adminState.isOnline
                               ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
                               : 'bg-neutral-100 text-neutral-600 border-neutral-300'
@@ -986,28 +1031,26 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
                         </p>
                       </div>
 
-                      {/* AI Auto-Reply Toggle */}
+                      {/* Global AI Auto-Reply Toggle */}
                       <div className="bg-[#FAF9F6] border border-[#D8D8D5] p-3 space-y-1.5">
                         <div className="flex items-center justify-between">
                           <span className="font-mono-tech text-xs font-bold text-[#111111] flex items-center gap-1">
-                            <Bot className="w-3 h-3 text-[#8F1D25]" /> AI AUTO-REPLY
+                            <Bot className="w-3 h-3 text-[#8F1D25]" /> GLOBAL AI AUTO-REPLY
                           </span>
                           <button
-                            onClick={() => {
-                              const updated = { ...adminState, aiAutoReply: !adminState.aiAutoReply };
-                              setAdminState(updated);
-                              saveAdminState(updated);
-                            }}
-                            className={`font-mono-tech text-[0.65rem] px-2.5 py-1 border font-bold uppercase cursor-pointer ${adminState.aiAutoReply
+                            onClick={handleToggleGlobalAi}
+                            className={`font-mono-tech text-[0.65rem] px-2.5 py-1 border font-bold uppercase cursor-pointer transition-all ${adminState.aiAutoReply
                               ? 'bg-[#111111] text-white border-[#111111]'
-                              : 'bg-neutral-100 text-neutral-600 border-neutral-300'
+                              : 'bg-amber-100 text-amber-900 border-amber-300 font-bold'
                               }`}
                           >
                             {adminState.aiAutoReply ? 'ENABLED' : 'PAUSED'}
                           </button>
                         </div>
                         <p className="font-sans-ui text-[0.68rem] text-[#747474]">
-                          Contextually answers visitor questions about projects and stack.
+                          {adminState.aiAutoReply
+                            ? 'AI contextually answers questions globally across all inboxes.'
+                            : 'Global AI is paused. Visitors will wait for your direct reply.'}
                         </p>
                       </div>
 
@@ -1064,26 +1107,42 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
                             <span className="text-[0.62rem] opacity-75">{chatMessages.length} msgs</span>
                           </button>
 
-                          {visitorSessions.map((session) => (
-                            <button
-                              key={session.sessionId}
-                              type="button"
-                              onClick={() => setSelectedSessionId(session.sessionId)}
-                              className={`w-full text-left p-2 border font-mono-tech text-xs transition-colors cursor-pointer ${
-                                selectedSessionId === session.sessionId
-                                  ? 'bg-[#8F1D25] text-white border-[#8F1D25]'
-                                  : 'bg-[#FAF9F6] hover:bg-white text-[#111111] border-[#D8D8D5]'
-                              }`}
-                            >
-                              <div className="flex items-center justify-between font-bold text-[0.7rem] mb-0.5">
-                                <span className="truncate">Visitor #{session.sessionId.slice(-6)}</span>
-                                <span className="text-[0.6rem] opacity-80">{session.lastTime}</span>
-                              </div>
-                              <p className="text-[0.65rem] truncate opacity-85 font-sans-ui">
-                                {session.lastMessage}
-                              </p>
-                            </button>
-                          ))}
+                          {visitorSessions.map((session) => {
+                            const isThreadMuted = disabledThreads.includes(session.sessionId);
+                            return (
+                              <button
+                                key={session.sessionId}
+                                type="button"
+                                onClick={() => setSelectedSessionId(session.sessionId)}
+                                className={`w-full text-left p-2 border font-mono-tech text-xs transition-colors cursor-pointer ${
+                                  selectedSessionId === session.sessionId
+                                    ? 'bg-[#8F1D25] text-white border-[#8F1D25]'
+                                    : 'bg-[#FAF9F6] hover:bg-white text-[#111111] border-[#D8D8D5]'
+                                }`}
+                              >
+                                <div className="flex items-center justify-between font-bold text-[0.7rem] mb-0.5">
+                                  <span className="truncate flex items-center gap-1.5">
+                                    <span>Visitor #{session.sessionId.slice(-6)}</span>
+                                    {isThreadMuted && (
+                                      <span
+                                        className={`text-[0.55rem] px-1 py-0.2 rounded font-bold ${
+                                          selectedSessionId === session.sessionId
+                                            ? 'bg-amber-400 text-black'
+                                            : 'bg-amber-100 text-amber-900 border border-amber-300'
+                                        }`}
+                                      >
+                                        AI OFF
+                                      </span>
+                                    )}
+                                  </span>
+                                  <span className="text-[0.6rem] opacity-80">{session.lastTime}</span>
+                                </div>
+                                <p className="text-[0.65rem] truncate opacity-85 font-sans-ui">
+                                  {session.lastMessage}
+                                </p>
+                              </button>
+                            );
+                          })}
                         </div>
                       </div>
                     </div>
@@ -1100,23 +1159,82 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
 
                   {/* Right Conversation Stream */}
                   <div className="flex-1 bg-white border border-[#D8D8D5] flex flex-col overflow-hidden shadow-xs">
-                    <div className="p-3 bg-[#ECECE6] border-b border-[#D8D8D5] flex items-center justify-between font-mono-tech text-xs">
-                      <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        <span className="font-bold">
+                    <div className="p-3 bg-[#ECECE6] border-b border-[#D8D8D5] flex items-center justify-between font-mono-tech text-xs gap-2">
+                      <div className="flex items-center gap-2 truncate">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                        <span className="font-bold truncate">
                           {selectedSessionId === 'all'
                             ? 'GLOBAL FEED // ALL VISITORS'
                             : `DIRECT CONVERSATION // VISITOR #${selectedSessionId.slice(-6)}`}
                         </span>
                       </div>
-                      <div className="flex items-center gap-2 text-[#747474] text-[0.65rem]">
-                        <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded font-bold">
+                      <div className="flex items-center gap-2 shrink-0">
+                        {/* Per-Thread AI Auto-Reply Toggle Button */}
+                        {selectedSessionId !== 'all' && (
+                          <button
+                            type="button"
+                            onClick={() => handleToggleThreadAi(selectedSessionId)}
+                            className={`font-mono-tech text-[0.65rem] px-2.5 py-1 border font-bold uppercase transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs ${
+                              disabledThreads.includes(selectedSessionId)
+                                ? 'bg-amber-100 text-amber-900 border-amber-400 hover:bg-amber-200'
+                                : 'bg-emerald-100 text-emerald-800 border-emerald-300 hover:bg-emerald-200'
+                            }`}
+                            title={
+                              disabledThreads.includes(selectedSessionId)
+                                ? 'Click to re-enable AI Auto-Reply for this inbox'
+                                : 'Click to mute AI Auto-Reply for this specific inbox'
+                            }
+                          >
+                            <span
+                              className={`w-1.5 h-1.5 rounded-full ${
+                                disabledThreads.includes(selectedSessionId)
+                                  ? 'bg-amber-500'
+                                  : 'bg-emerald-500 animate-pulse'
+                              }`}
+                            />
+                            <span>
+                              {disabledThreads.includes(selectedSessionId)
+                                ? 'AI: PAUSED FOR THIS INBOX (RESUME)'
+                                : 'AI: ACTIVE (PAUSE FOR THIS INBOX)'}
+                            </span>
+                          </button>
+                        )}
+                        <span className="hidden sm:inline-block bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded font-bold text-[0.65rem]">
                           MONGODB ATLAS LIVE
                         </span>
                       </div>
                     </div>
 
                     <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-[#FAF9F6]">
+                      {/* Thread-level or Global AI Notice Banner */}
+                      {selectedSessionId !== 'all' && disabledThreads.includes(selectedSessionId) && (
+                        <div className="bg-amber-50 border border-amber-300 text-amber-900 px-3 py-2 text-[0.7rem] font-mono-tech flex items-center justify-between shadow-2xs rounded-xs">
+                          <span className="flex items-center gap-1.5">
+                            <span>⚠️</span>
+                            <span>AI Auto-Reply is <strong>PAUSED</strong> for this inbox. The visitor will only receive your direct messages.</span>
+                          </span>
+                          <button
+                            onClick={() => handleToggleThreadAi(selectedSessionId)}
+                            className="underline font-bold hover:text-amber-950 ml-2 cursor-pointer shrink-0"
+                          >
+                            Resume AI
+                          </button>
+                        </div>
+                      )}
+                      {!adminState.aiAutoReply && (
+                        <div className="bg-neutral-100 border border-neutral-300 text-neutral-800 px-3 py-2 text-[0.7rem] font-mono-tech flex items-center justify-between shadow-2xs rounded-xs">
+                          <span className="flex items-center gap-1.5">
+                            <span>⏸️</span>
+                            <span>Global AI Auto-Reply is <strong>PAUSED</strong> across all inboxes.</span>
+                          </span>
+                          <button
+                            onClick={handleToggleGlobalAi}
+                            className="underline font-bold text-[#8F1D25] ml-2 cursor-pointer shrink-0"
+                          >
+                            Enable Global AI
+                          </button>
+                        </div>
+                      )}
                       {displayedChatMessages.length === 0 ? (
                         <div className="h-full flex flex-col items-center justify-center text-center text-[#747474]">
                           <p className="font-mono-tech text-xs">NO VISITOR MESSAGES LOGGED</p>

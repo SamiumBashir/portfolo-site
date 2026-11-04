@@ -69,6 +69,32 @@ async function parseBody(req) {
   });
 }
 
+const defaultSettings = {
+  isOnline: true,
+  aiAutoReply: true,
+  statusMessage: 'Typically replies in a few minutes',
+  disabledThreads: [],
+};
+
+async function getChatSettings(db) {
+  const settingsCol = db.collection('chat_settings');
+  const doc = await settingsCol.findOne({ _id: 'global_settings' });
+  if (!doc) {
+    await settingsCol.updateOne(
+      { _id: 'global_settings' },
+      { $setOnInsert: defaultSettings },
+      { upsert: true }
+    );
+    return defaultSettings;
+  }
+  return {
+    isOnline: doc.isOnline ?? true,
+    aiAutoReply: doc.aiAutoReply ?? true,
+    statusMessage: doc.statusMessage || 'Typically replies in a few minutes',
+    disabledThreads: Array.isArray(doc.disabledThreads) ? doc.disabledThreads : [],
+  };
+}
+
 export default async function handler(req, res) {
   // CORS Headers
   res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -98,11 +124,15 @@ export default async function handler(req, res) {
     const client = await getClient();
     const db = client.db('portfolio_chat');
     const collection = db.collection('chat_messages');
+    const settingsCol = db.collection('chat_settings');
 
     const url = new URL(req.url, 'http://localhost');
     const query = req.query || Object.fromEntries(url.searchParams);
 
-    // GET: Fetch messages
+    // Fetch live settings
+    const settings = await getChatSettings(db);
+
+    // GET: Fetch messages & settings
     if (req.method === 'GET') {
       const { sessionId, admin } = query;
 
@@ -139,12 +169,84 @@ export default async function handler(req, res) {
         read: d.read ?? true,
       }));
 
-      return sendJson(200, { success: true, messages });
+      // Deliver thread-specific or admin-level settings
+      if (admin === 'true') {
+        return sendJson(200, {
+          success: true,
+          messages,
+          settings: {
+            isOnline: settings.isOnline,
+            aiAutoReply: settings.aiAutoReply,
+            statusMessage: settings.statusMessage,
+            disabledThreads: settings.disabledThreads,
+          },
+        });
+      } else {
+        const isThreadAiDisabled = sessionId ? settings.disabledThreads.includes(sessionId) : false;
+        return sendJson(200, {
+          success: true,
+          messages,
+          settings: {
+            isOnline: settings.isOnline,
+            aiAutoReply: settings.aiAutoReply,
+            statusMessage: settings.statusMessage,
+            isThreadAiDisabled,
+          },
+        });
+      }
     }
 
-    // POST: Send new message
+    // POST: Send new message OR update settings
     if (req.method === 'POST') {
       const body = await parseBody(req);
+
+      // Action 1: Update Global Settings
+      if (body.action === 'update_settings') {
+        const updateFields = {};
+        if (body.aiAutoReply !== undefined) updateFields.aiAutoReply = Boolean(body.aiAutoReply);
+        if (body.isOnline !== undefined) updateFields.isOnline = Boolean(body.isOnline);
+        if (body.statusMessage !== undefined) updateFields.statusMessage = String(body.statusMessage);
+
+        await settingsCol.updateOne(
+          { _id: 'global_settings' },
+          { $set: updateFields },
+          { upsert: true }
+        );
+        const updated = await getChatSettings(db);
+        return sendJson(200, { success: true, settings: updated });
+      }
+
+      // Action 2: Toggle AI Auto-Reply for a Specific Visitor Thread
+      if (body.action === 'toggle_thread_ai') {
+        const { sessionId, disableAi } = body;
+        if (!sessionId) {
+          return sendJson(400, { success: false, error: 'sessionId is required to toggle thread AI' });
+        }
+
+        if (disableAi) {
+          await settingsCol.updateOne(
+            { _id: 'global_settings' },
+            { $addToSet: { disabledThreads: sessionId } },
+            { upsert: true }
+          );
+        } else {
+          await settingsCol.updateOne(
+            { _id: 'global_settings' },
+            { $pull: { disabledThreads: sessionId } },
+            { upsert: true }
+          );
+        }
+
+        const updated = await getChatSettings(db);
+        return sendJson(200, {
+          success: true,
+          sessionId,
+          isThreadAiDisabled: Boolean(disableAi),
+          disabledThreads: updated.disabledThreads,
+        });
+      }
+
+      // Normal Message Posting
       const { id, sender, author, text, sessionId, timestamp, recipient, broadcast } = body;
 
       if (!text || typeof text !== 'string' || !text.trim()) {

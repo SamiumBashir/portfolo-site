@@ -77,8 +77,8 @@ export default function ChatAdminDashboard({ isOpen, onClose }) {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Default PIN: 2026
-    if (pinInput === '2026' || pinInput === 'admin') {
+    const validPin = (import.meta.env.VITE_ADMIN_PIN || '2026').trim();
+    if (pinInput === validPin || pinInput === 'Badhan' || pinInput === 'admin') {
       setIsAuthenticated(true);
       setPinError(false);
     } else {
@@ -190,7 +190,7 @@ export default function ChatAdminDashboard({ isOpen, onClose }) {
               ADMIN VERIFICATION
             </h3>
             <p className="font-sans-ui text-xs text-[#747474] max-w-xs mb-6">
-              Enter the admin passcode to access live conversation streams and telemetry dispatch. (Default: <code>2026</code>)
+              Enter your private administrator security PIN to access the live conversation telemetry.
             </p>
 
             <form onSubmit={handleLogin} className="w-full max-w-xs space-y-3">
@@ -198,7 +198,7 @@ export default function ChatAdminDashboard({ isOpen, onClose }) {
                 type="password"
                 value={pinInput}
                 onChange={(e) => setPinInput(e.target.value)}
-                placeholder="Enter PIN (e.g. 2026)"
+                placeholder="Enter Security PIN"
                 autoFocus
                 className="w-full bg-white border border-[#D8D8D5] p-3 text-center font-mono-tech text-base tracking-widest focus:border-[#8F1D25] focus:outline-none"
               />

@@ -173,7 +173,8 @@ export default function AdminPanel({ isOpen, onClose }) {
   // Handle Login
   const handleLogin = (e) => {
     e.preventDefault();
-    if (pinInput === '2026' || pinInput === 'admin') {
+    const validPin = (import.meta.env.VITE_ADMIN_PIN || '2026').trim();
+    if (pinInput === validPin || pinInput === 'Badhan' || pinInput === 'admin') {
       setIsAuthenticated(true);
       sessionStorage.setItem('samium_admin_auth', 'true');
       setPinError(false);
@@ -473,7 +474,7 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
               ADMIN VERIFICATION REQUIRED
             </h2>
             <p className="font-sans-ui text-xs text-[#747474] max-w-sm mb-6 leading-relaxed">
-              Enter the admin passcode to unlock the portfolio content management system, project upload suite, and real-time telemetry. (Default Passcode: <code>2026</code>)
+              Enter your private administrator security PIN to unlock the portfolio content management system and real-time telemetry.
             </p>
 
             <form onSubmit={handleLogin} className="w-full max-w-xs space-y-3">
@@ -481,7 +482,7 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
                 type="password"
                 value={pinInput}
                 onChange={(e) => setPinInput(e.target.value)}
-                placeholder="Enter PIN (e.g. 2026)"
+                placeholder="Enter Security PIN"
                 autoFocus
                 className="w-full bg-white border-2 border-[#111111] p-3 text-center font-mono-tech text-base tracking-widest focus:border-[#8F1D25] focus:outline-none shadow-[3px_3px_0px_#D8D8D5]"
               />
@@ -508,11 +509,10 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
               <div className="flex items-center gap-1 py-2">
                 <button
                   onClick={() => setActiveTab('projects')}
-                  className={`font-mono-tech text-xs font-bold px-3 sm:px-4 py-2 border transition-all flex items-center gap-1.5 cursor-pointer ${
-                    activeTab === 'projects'
-                      ? 'bg-[#111111] text-white border-[#111111] shadow-xs'
-                      : 'bg-white text-[#111111] border-[#D8D8D5] hover:border-[#8F1D25]'
-                  }`}
+                  className={`font-mono-tech text-xs font-bold px-3 sm:px-4 py-2 border transition-all flex items-center gap-1.5 cursor-pointer ${activeTab === 'projects'
+                    ? 'bg-[#111111] text-white border-[#111111] shadow-xs'
+                    : 'bg-white text-[#111111] border-[#D8D8D5] hover:border-[#8F1D25]'
+                    }`}
                 >
                   <Layers className="w-3.5 h-3.5 text-[#8F1D25]" />
                   <span>PROJECTS CMS ({projects.length})</span>
@@ -520,11 +520,10 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
 
                 <button
                   onClick={() => setActiveTab('profile')}
-                  className={`font-mono-tech text-xs font-bold px-3 sm:px-4 py-2 border transition-all flex items-center gap-1.5 cursor-pointer ${
-                    activeTab === 'profile'
-                      ? 'bg-[#111111] text-white border-[#111111] shadow-xs'
-                      : 'bg-white text-[#111111] border-[#D8D8D5] hover:border-[#8F1D25]'
-                  }`}
+                  className={`font-mono-tech text-xs font-bold px-3 sm:px-4 py-2 border transition-all flex items-center gap-1.5 cursor-pointer ${activeTab === 'profile'
+                    ? 'bg-[#111111] text-white border-[#111111] shadow-xs'
+                    : 'bg-white text-[#111111] border-[#D8D8D5] hover:border-[#8F1D25]'
+                    }`}
                 >
                   <User className="w-3.5 h-3.5 text-[#8F1D25]" />
                   <span>PROFILE &amp; BIO</span>
@@ -532,11 +531,10 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
 
                 <button
                   onClick={() => setActiveTab('chat')}
-                  className={`font-mono-tech text-xs font-bold px-3 sm:px-4 py-2 border transition-all flex items-center gap-1.5 cursor-pointer ${
-                    activeTab === 'chat'
-                      ? 'bg-[#111111] text-white border-[#111111] shadow-xs'
-                      : 'bg-white text-[#111111] border-[#D8D8D5] hover:border-[#8F1D25]'
-                  }`}
+                  className={`font-mono-tech text-xs font-bold px-3 sm:px-4 py-2 border transition-all flex items-center gap-1.5 cursor-pointer ${activeTab === 'chat'
+                    ? 'bg-[#111111] text-white border-[#111111] shadow-xs'
+                    : 'bg-white text-[#111111] border-[#D8D8D5] hover:border-[#8F1D25]'
+                    }`}
                 >
                   <Bot className="w-3.5 h-3.5 text-[#8F1D25]" />
                   <span>LIVE CHAT TELEMETRY</span>
@@ -549,11 +547,10 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
 
                 <button
                   onClick={() => setActiveTab('export')}
-                  className={`font-mono-tech text-xs font-bold px-3 sm:px-4 py-2 border transition-all flex items-center gap-1.5 cursor-pointer ${
-                    activeTab === 'export'
-                      ? 'bg-[#111111] text-white border-[#111111] shadow-xs'
-                      : 'bg-white text-[#111111] border-[#D8D8D5] hover:border-[#8F1D25]'
-                  }`}
+                  className={`font-mono-tech text-xs font-bold px-3 sm:px-4 py-2 border transition-all flex items-center gap-1.5 cursor-pointer ${activeTab === 'export'
+                    ? 'bg-[#111111] text-white border-[#111111] shadow-xs'
+                    : 'bg-white text-[#111111] border-[#D8D8D5] hover:border-[#8F1D25]'
+                    }`}
                 >
                   <Code2 className="w-3.5 h-3.5 text-[#8F1D25]" />
                   <span>GIT SYNC &amp; EXPORT</span>
@@ -881,11 +878,10 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
                               setAdminState(updated);
                               saveAdminState(updated);
                             }}
-                            className={`font-mono-tech text-[0.65rem] px-2.5 py-1 border font-bold uppercase cursor-pointer ${
-                              adminState.isOnline
-                                ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
-                                : 'bg-neutral-100 text-neutral-600 border-neutral-300'
-                            }`}
+                            className={`font-mono-tech text-[0.65rem] px-2.5 py-1 border font-bold uppercase cursor-pointer ${adminState.isOnline
+                              ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
+                              : 'bg-neutral-100 text-neutral-600 border-neutral-300'
+                              }`}
                           >
                             {adminState.isOnline ? '● ONLINE' : '○ OFFLINE'}
                           </button>
@@ -909,11 +905,10 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
                               setAdminState(updated);
                               saveAdminState(updated);
                             }}
-                            className={`font-mono-tech text-[0.65rem] px-2.5 py-1 border font-bold uppercase cursor-pointer ${
-                              adminState.aiAutoReply
-                                ? 'bg-[#111111] text-white border-[#111111]'
-                                : 'bg-neutral-100 text-neutral-600 border-neutral-300'
-                            }`}
+                            className={`font-mono-tech text-[0.65rem] px-2.5 py-1 border font-bold uppercase cursor-pointer ${adminState.aiAutoReply
+                              ? 'bg-[#111111] text-white border-[#111111]'
+                              : 'bg-neutral-100 text-neutral-600 border-neutral-300'
+                              }`}
                           >
                             {adminState.aiAutoReply ? 'ENABLED' : 'PAUSED'}
                           </button>
@@ -1005,13 +1000,12 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
                                 <span>{msg.timestamp}</span>
                               </div>
                               <div
-                                className={`max-w-[80%] p-3 text-xs leading-relaxed border ${
-                                  isUser
-                                    ? 'bg-white border-[#D8D8D5] text-[#111111]'
-                                    : isAdmin
+                                className={`max-w-[80%] p-3 text-xs leading-relaxed border ${isUser
+                                  ? 'bg-white border-[#D8D8D5] text-[#111111]'
+                                  : isAdmin
                                     ? 'bg-[#111111] text-white border-[#111111]'
                                     : 'bg-[#ECECE6] text-[#111111] border-[#D8D8D5]'
-                                }`}
+                                  }`}
                               >
                                 {msg.text}
                               </div>

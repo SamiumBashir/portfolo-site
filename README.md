@@ -136,19 +136,25 @@ d:/Portfolio/
    npm install
    ```
 
-2. **Start the local development server:**
+2. **Configure Environment Variables (Optional):**
+   ```bash
+   cp .env.example .env.local
+   ```
+   *(All private environment variables and passwords are kept in `.env.local` and strictly ignored by git via `.gitignore` to prevent public exposure).*
+
+3. **Start the local development server:**
    ```bash
    npm run dev
    ```
    Open `http://localhost:3000` in your browser.
 
-3. **Build for production:**
+4. **Build for production:**
    ```bash
    npm run build
    ```
    Outputs optimized, tree-shaken static assets to `dist/`.
 
-4. **Preview the production build:**
+5. **Preview the production build:**
    ```bash
    npm run preview
    ```

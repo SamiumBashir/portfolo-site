@@ -1,8 +1,64 @@
-node_modules
-dist
-dist-ssr
-*.local
-.vercel
-.vscode
+# ==============================================================================
+# SAMIUM PORTFOLIO // GITIGNORE SPECIFICATION
+# PREVENTS ACCIDENTAL LEAKS OF PASSWORDS, CREDENTIALS, LOGS & ENVIRONMENT SECRETS
+# ==============================================================================
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production Build Artifacts
+dist/
+dist-ssr/
+build/
+*.tsbuildinfo
+
+# Environment Variables & Private Passwords/Secrets (STRICTLY IGNORED)
 .env
-.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+*.env.*
+.env*
+*.local
+!.env.example
+
+# Security Credentials, Private Keys & Certificates
+*.pem
+*.key
+*.cert
+*.crt
+*.pfx
+*.p12
+*.keystore
+id_rsa*
+secrets/
+credentials/
+
+# Debug Logs & Error Traces
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Editor & OS Artifacts
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Platform & Deployment Artifacts
+.vercel/
+.system_generated/

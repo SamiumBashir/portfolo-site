@@ -1,5 +1,5 @@
 import React from 'react';
-import { Briefcase, Calendar, MapPin, CheckCircle, Download } from 'lucide-react';
+import { Briefcase, Calendar, MapPin, CheckCircle } from 'lucide-react';
 
 const TIMELINE_DATA = [
   {
@@ -52,26 +52,13 @@ export default function Experience() {
     <section id="experience" className="py-16 md:py-24 border-b border-[#D8D8D5] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <div className="section-marker mb-3">02 // OPERATIONAL CHRONICLE &amp; ROLES</div>
-            <h2 className="section-heading-large">
-              PROFESSIONAL JOURNEY &amp;
-              <br />
-              <span className="text-[#8F1D25]">PRODUCTION MILESTONES</span>
-            </h2>
-          </div>
-
-          <a
-            href="./Samium_Bashir_Badhan_CV.pdf"
-            download="Samium_Bashir_Badhan_CV.pdf"
-            target="_blank"
-            rel="noreferrer"
-            className="btn-editorial-primary btn-editorial-sm flex items-center gap-1.5"
-            title="Download Full Verified CV (PDF)"
-          >
-            <Download className="w-3.5 h-3.5" /> DOWNLOAD OFFICIAL CV
-          </a>
+        <div className="mb-12">
+          <div className="section-marker mb-3">02 // OPERATIONAL CHRONICLE &amp; ROLES</div>
+          <h2 className="section-heading-large">
+            PROFESSIONAL JOURNEY &amp;
+            <br />
+            <span className="text-[#8F1D25]">PRODUCTION MILESTONES</span>
+          </h2>
         </div>
 
         {/* Timeline Container */}

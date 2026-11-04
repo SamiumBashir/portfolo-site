@@ -1432,3 +1432,4 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
     </div>
   );
 }
+

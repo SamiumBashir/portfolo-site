@@ -1,13 +1,38 @@
 import { MongoClient } from 'mongodb';
+import fs from 'fs';
+import path from 'path';
 
-const uri =
-  process.env.MONGODB_URI ||
-  'mongodb+srv://read_next:Jtb5OqN6MC8zhPz1@cluster0.5u4uwgw.mongodb.net/portfolio_chat?retryWrites=true&w=majority';
+function getMongoUri() {
+  if (process.env.MONGODB_URI) {
+    return process.env.MONGODB_URI;
+  }
+  try {
+    const envPath = path.resolve(process.cwd(), '.env.local');
+    if (fs.existsSync(envPath)) {
+      const content = fs.readFileSync(envPath, 'utf8');
+      const match = content.match(/^MONGODB_URI=(.*)$/m);
+      if (match && match[1]) {
+        const parsed = match[1].trim().replace(/^["']|["']$/g, '');
+        process.env.MONGODB_URI = parsed;
+        return parsed;
+      }
+    }
+  } catch (err) {
+    // ignore
+  }
+  return null;
+}
 
 let cachedClient = null;
 
 async function getClient() {
   if (!cachedClient) {
+    const uri = getMongoUri();
+    if (!uri) {
+      throw new Error(
+        'MONGODB_URI is not defined. Please set it in .env.local or your environment variables.'
+      );
+    }
     cachedClient = new MongoClient(uri, {
       serverSelectionTimeoutMS: 5000,
       connectTimeoutMS: 5000,

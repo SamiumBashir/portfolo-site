@@ -28,6 +28,7 @@ import {
   chatService,
   generateAiResponse,
   playNotificationChime,
+  getVisitorSessionId,
 } from '../services/chatEngine';
 
 export default function FloatingChatWidget({ onOpenAdmin }) {
@@ -51,8 +52,11 @@ export default function FloatingChatWidget({ onOpenAdmin }) {
     setAdminState(getAdminState());
   }, []);
 
-  // Subscribe to real-time events (BroadcastChannel / Socket.IO)
+  // Subscribe to real-time events (BroadcastChannel / Socket.IO) & Cloud Sync
   useEffect(() => {
+    const sessionId = getVisitorSessionId();
+
+    // 1. Local event subscription (BroadcastChannel / Socket.IO)
     const unsubscribe = chatService.subscribe(({ type, payload }) => {
       if (type === 'NEW_MESSAGE') {
         setMessages((prev) => {
@@ -79,7 +83,38 @@ export default function FloatingChatWidget({ onOpenAdmin }) {
       }
     });
 
-    return () => unsubscribe();
+    // 2. Continuous Cloud Auto-Sync with MongoDB Atlas
+    const stopSync = chatService.startAutoSync({
+      sessionId,
+      admin: false,
+      interval: 2600,
+      onUpdate: (cloudMsgs) => {
+        setMessages((prev) => {
+          const existingIds = new Set(prev.map((m) => m.id));
+          const newFromCloud = cloudMsgs.filter((m) => !existingIds.has(m.id));
+
+          if (newFromCloud.length === 0) return prev;
+
+          // Check if an admin message arrived
+          const adminReplies = newFromCloud.filter((m) => m.sender === 'admin');
+          if (adminReplies.length > 0) {
+            if (!isOpen) {
+              setUnreadCount((c) => c + adminReplies.length);
+            }
+            if (!isSoundMuted) playNotificationChime();
+          }
+
+          const merged = [...prev, ...newFromCloud];
+          saveStoredMessages(merged);
+          return merged;
+        });
+      },
+    });
+
+    return () => {
+      unsubscribe();
+      stopSync();
+    };
   }, [isOpen, isSoundMuted]);
 
   // Scroll to bottom when messages update
@@ -101,11 +136,13 @@ export default function FloatingChatWidget({ onOpenAdmin }) {
     const content = (textToSend || inputText).trim();
     if (!content) return;
 
+    const sessionId = getVisitorSessionId();
     const userMsg = {
       id: 'msg_' + Date.now(),
       sender: 'user',
       author: 'You',
       text: content,
+      sessionId,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       read: true,
     };
@@ -129,6 +166,7 @@ export default function FloatingChatWidget({ onOpenAdmin }) {
           sender: 'bot',
           author: 'Samium AI',
           text: replyText,
+          sessionId,
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
           read: true,
         };

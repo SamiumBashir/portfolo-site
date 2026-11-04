@@ -37,6 +37,7 @@ import {
   saveAdminState,
   chatService,
   playNotificationChime,
+  deleteCloudMessages,
 } from '../services/chatEngine';
 
 export default function AdminPanel({ isOpen, onClose }) {
@@ -79,6 +80,7 @@ export default function AdminPanel({ isOpen, onClose }) {
   // Chat Telemetry State
   const [chatMessages, setChatMessages] = useState([]);
   const [adminState, setAdminState] = useState(getAdminState());
+  const [selectedSessionId, setSelectedSessionId] = useState('all');
   const [chatReply, setChatReply] = useState('');
   const [chatPhoneInput, setChatPhoneInput] = useState(
     getAdminState().whatsappNumber || profile.whatsappNumber
@@ -104,8 +106,11 @@ export default function AdminPanel({ isOpen, onClose }) {
     }
   }, [isOpen]);
 
-  // Subscribe to real-time chat
+  // Subscribe to real-time chat & auto-sync from Cloud MongoDB Atlas
   useEffect(() => {
+    if (!isOpen) return;
+
+    // 1. Local event subscription (BroadcastChannel / Socket.IO)
     const unsubscribe = chatService.subscribe(({ type, payload }) => {
       if (type === 'NEW_MESSAGE') {
         setChatMessages((prev) => {
@@ -120,8 +125,66 @@ export default function AdminPanel({ isOpen, onClose }) {
       }
     });
 
-    return () => unsubscribe();
-  }, []);
+    // 2. Continuous Cloud MongoDB Atlas Auto-Sync for Admin (Polls every 2.4s)
+    const stopSync = chatService.startAutoSync({
+      admin: true,
+      interval: 2400,
+      onUpdate: (cloudMsgs) => {
+        setChatMessages((prev) => {
+          const existingIds = new Set(prev.map((m) => m.id));
+          const newFromCloud = cloudMsgs.filter((m) => !existingIds.has(m.id));
+          if (newFromCloud.length === 0) return prev;
+
+          // If a new visitor message arrived, play chime
+          const hasVisitorMsg = newFromCloud.some((m) => m.sender === 'user');
+          if (hasVisitorMsg) {
+            playNotificationChime();
+          }
+
+          const merged = [...prev, ...newFromCloud];
+          saveStoredMessages(merged);
+          return merged;
+        });
+      },
+    });
+
+    return () => {
+      unsubscribe();
+      stopSync();
+    };
+  }, [isOpen]);
+
+  // Extract distinct visitor threads
+  const visitorSessions = React.useMemo(() => {
+    const map = new Map();
+    chatMessages.forEach((msg) => {
+      const sid = msg.sessionId;
+      if (!sid || sid === 'all') return;
+      if (!map.has(sid)) {
+        map.set(sid, {
+          sessionId: sid,
+          lastMessage: msg.text,
+          lastTime: msg.timestamp,
+          count: 1,
+          hasVisitorMessage: msg.sender === 'user',
+        });
+      } else {
+        const entry = map.get(sid);
+        entry.lastMessage = msg.text;
+        entry.lastTime = msg.timestamp;
+        entry.count += 1;
+        if (msg.sender === 'user') entry.hasVisitorMessage = true;
+      }
+    });
+    return Array.from(map.values()).reverse();
+  }, [chatMessages]);
+
+  const displayedChatMessages = React.useMemo(() => {
+    if (selectedSessionId === 'all') return chatMessages;
+    return chatMessages.filter(
+      (m) => m.sessionId === selectedSessionId || m.recipient === selectedSessionId
+    );
+  }, [chatMessages, selectedSessionId]);
 
   // Keyboard shortcut ESC to close
   useEffect(() => {
@@ -349,6 +412,9 @@ export default function AdminPanel({ isOpen, onClose }) {
       sender: 'admin',
       author: 'Samium Bashir Badhan (Direct)',
       text: chatReply.trim(),
+      sessionId: selectedSessionId === 'all' ? 'all' : selectedSessionId,
+      recipient: selectedSessionId === 'all' ? null : selectedSessionId,
+      broadcast: selectedSessionId === 'all',
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       read: true,
     };
@@ -358,6 +424,28 @@ export default function AdminPanel({ isOpen, onClose }) {
     saveStoredMessages(updated);
     chatService.sendMessage(replyMsg);
     setChatReply('');
+  };
+
+  // Clear chat logs locally and from Cloud MongoDB Atlas
+  const handleClearChatLogs = async () => {
+    const targetDesc =
+      selectedSessionId === 'all'
+        ? 'ALL visitor chat history'
+        : `messages for session ${selectedSessionId}`;
+    if (!window.confirm(`Clear ${targetDesc} from cloud database and logs?`)) return;
+
+    await deleteCloudMessages(selectedSessionId);
+    if (selectedSessionId === 'all') {
+      localStorage.removeItem('samium_chat_messages_v2');
+      setChatMessages([]);
+    } else {
+      const filtered = chatMessages.filter(
+        (m) => m.sessionId !== selectedSessionId && m.recipient !== selectedSessionId
+      );
+      setChatMessages(filtered);
+      saveStoredMessages(filtered);
+      setSelectedSessionId('all');
+    }
   };
 
   // Copy projects.js code
@@ -850,20 +938,25 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
               )}
 
               {/* ---------------------------------------------------------------
-                  TAB 3: LIVE CHAT TELEMETRY
+                  TAB 3: LIVE CHAT TELEMETRY & CLOUD INBOX
                   --------------------------------------------------------------- */}
               {activeTab === 'chat' && (
-                <div className="flex-1 flex flex-col md:flex-row gap-5 max-w-6xl mx-auto h-[70vh]">
-                  {/* Left Controls */}
+                <div className="flex-1 flex flex-col md:flex-row gap-5 max-w-6xl mx-auto h-[74vh]">
+                  {/* Left Controls & Visitor Threads Panel */}
                   <div className="md:w-80 bg-white border border-[#D8D8D5] p-4 flex flex-col justify-between shrink-0 overflow-y-auto shadow-xs">
                     <div className="space-y-4">
-                      <div className="border-b border-[#D8D8D5] pb-3">
-                        <span className="font-mono-tech text-[0.65rem] text-[#8F1D25] font-bold uppercase block mb-1">
-                          TELEMETRY CONTROLS //
+                      <div className="border-b border-[#D8D8D5] pb-3 flex items-center justify-between">
+                        <div>
+                          <span className="font-mono-tech text-[0.65rem] text-[#8F1D25] font-bold uppercase block mb-1">
+                            TELEMETRY CONTROLS //
+                          </span>
+                          <h4 className="font-serif-display text-base font-bold text-[#111111]">
+                            Cloud Inbox &amp; AI
+                          </h4>
+                        </div>
+                        <span className="font-mono-tech text-[0.6rem] bg-emerald-100 text-emerald-800 border border-emerald-300 px-2 py-0.5 rounded font-bold">
+                          CLOUD SYNC
                         </span>
-                        <h4 className="font-serif-display text-base font-bold text-[#111111]">
-                          Real-Time Socket &amp; AI
-                        </h4>
                       </div>
 
                       {/* Online/Offline Toggle */}
@@ -946,19 +1039,61 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
                           </button>
                         </div>
                       </form>
+
+                      {/* Visitor Threads List */}
+                      <div className="space-y-2 pt-2 border-t border-[#D8D8D5]">
+                        <div className="flex items-center justify-between font-mono-tech text-[0.65rem] text-[#747474] font-bold">
+                          <span>VISITOR THREADS ({visitorSessions.length})</span>
+                          <span>SELECT TO REPLY</span>
+                        </div>
+
+                        <div className="max-h-44 overflow-y-auto space-y-1.5 pr-1">
+                          <button
+                            type="button"
+                            onClick={() => setSelectedSessionId('all')}
+                            className={`w-full text-left p-2 border font-mono-tech text-xs transition-colors cursor-pointer flex items-center justify-between ${
+                              selectedSessionId === 'all'
+                                ? 'bg-[#111111] text-white border-[#111111]'
+                                : 'bg-[#FAF9F6] hover:bg-white text-[#111111] border-[#D8D8D5]'
+                            }`}
+                          >
+                            <span className="font-bold flex items-center gap-1.5">
+                              <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                              GLOBAL FEED (ALL)
+                            </span>
+                            <span className="text-[0.62rem] opacity-75">{chatMessages.length} msgs</span>
+                          </button>
+
+                          {visitorSessions.map((session) => (
+                            <button
+                              key={session.sessionId}
+                              type="button"
+                              onClick={() => setSelectedSessionId(session.sessionId)}
+                              className={`w-full text-left p-2 border font-mono-tech text-xs transition-colors cursor-pointer ${
+                                selectedSessionId === session.sessionId
+                                  ? 'bg-[#8F1D25] text-white border-[#8F1D25]'
+                                  : 'bg-[#FAF9F6] hover:bg-white text-[#111111] border-[#D8D8D5]'
+                              }`}
+                            >
+                              <div className="flex items-center justify-between font-bold text-[0.7rem] mb-0.5">
+                                <span className="truncate">Visitor #{session.sessionId.slice(-6)}</span>
+                                <span className="text-[0.6rem] opacity-80">{session.lastTime}</span>
+                              </div>
+                              <p className="text-[0.65rem] truncate opacity-85 font-sans-ui">
+                                {session.lastMessage}
+                              </p>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     </div>
 
                     <div className="pt-4 border-t border-[#D8D8D5]">
                       <button
-                        onClick={() => {
-                          if (window.confirm('Clear all chat messages?')) {
-                            localStorage.removeItem('samium_chat_messages_v2');
-                            setChatMessages([]);
-                          }
-                        }}
+                        onClick={handleClearChatLogs}
                         className="w-full font-mono-tech text-xs text-red-700 hover:text-red-900 border border-red-200 hover:border-red-400 py-1.5 transition-colors cursor-pointer"
                       >
-                        CLEAR CHAT LOGS
+                        {selectedSessionId === 'all' ? 'CLEAR ALL CLOUD LOGS' : `CLEAR THREAD #${selectedSessionId.slice(-6)}`}
                       </button>
                     </div>
                   </div>
@@ -968,21 +1103,29 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
                     <div className="p-3 bg-[#ECECE6] border-b border-[#D8D8D5] flex items-center justify-between font-mono-tech text-xs">
                       <div className="flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                        <span className="font-bold">LIVE VISITOR FEED</span>
+                        <span className="font-bold">
+                          {selectedSessionId === 'all'
+                            ? 'GLOBAL FEED // ALL VISITORS'
+                            : `DIRECT CONVERSATION // VISITOR #${selectedSessionId.slice(-6)}`}
+                        </span>
                       </div>
-                      <span className="text-[#747474] text-[0.65rem]">
-                        SOCKET.IO &amp; BROADCAST READY
-                      </span>
+                      <div className="flex items-center gap-2 text-[#747474] text-[0.65rem]">
+                        <span className="bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded font-bold">
+                          MONGODB ATLAS LIVE
+                        </span>
+                      </div>
                     </div>
 
                     <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-[#FAF9F6]">
-                      {chatMessages.length === 0 ? (
+                      {displayedChatMessages.length === 0 ? (
                         <div className="h-full flex flex-col items-center justify-center text-center text-[#747474]">
                           <p className="font-mono-tech text-xs">NO VISITOR MESSAGES LOGGED</p>
-                          <span className="text-[0.7rem]">Send a message from the live chat to test!</span>
+                          <span className="text-[0.7rem] mt-1">
+                            When an external visitor sends a message from anywhere in the world, it appears here in real time!
+                          </span>
                         </div>
                       ) : (
-                        chatMessages.map((msg, idx) => {
+                        displayedChatMessages.map((msg, idx) => {
                           const isUser = msg.sender === 'user';
                           const isAdmin = msg.sender === 'admin';
                           const isBot = msg.sender === 'bot';
@@ -994,16 +1137,20 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
                             >
                               <div className="flex items-center gap-1.5 mb-1 font-mono-tech text-[0.62rem] text-[#747474]">
                                 <span className="font-bold">
-                                  {isUser ? 'Visitor' : isBot ? 'Samium AI' : 'You (Admin)'}
+                                  {isUser
+                                    ? `Visitor (${(msg.sessionId || 'anon').slice(-6)})`
+                                    : isBot
+                                    ? 'Samium AI Bot'
+                                    : 'You (Samium Bashir Badhan)'}
                                 </span>
                                 <span>·</span>
                                 <span>{msg.timestamp}</span>
                               </div>
                               <div
-                                className={`max-w-[80%] p-3 text-xs leading-relaxed border ${isUser
+                                className={`max-w-[85%] p-3 text-xs leading-relaxed border ${isUser
                                   ? 'bg-white border-[#D8D8D5] text-[#111111]'
                                   : isAdmin
-                                    ? 'bg-[#111111] text-white border-[#111111]'
+                                    ? 'bg-[#8F1D25] text-white border-[#8F1D25]'
                                     : 'bg-[#ECECE6] text-[#111111] border-[#D8D8D5]'
                                   }`}
                               >
@@ -1022,15 +1169,20 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
                         type="text"
                         value={chatReply}
                         onChange={(e) => setChatReply(e.target.value)}
-                        placeholder="Reply as Samium directly to visitor..."
+                        placeholder={
+                          selectedSessionId === 'all'
+                            ? 'Broadcast reply as Samium to all visitors...'
+                            : `Reply directly to Visitor #${selectedSessionId.slice(-6)}...`
+                        }
                         className="flex-1 bg-[#F5F4F1] border border-[#D8D8D5] px-3 py-2 font-sans-ui text-xs text-[#111111] focus:border-[#8F1D25] focus:outline-none"
                       />
                       <button
                         type="submit"
                         disabled={!chatReply.trim()}
-                        className="btn-editorial-primary btn-editorial-sm py-2 px-4 flex items-center gap-1 cursor-pointer disabled:opacity-40"
+                        className="btn-editorial-primary btn-editorial-sm py-2 px-5 flex items-center gap-1.5 cursor-pointer disabled:opacity-40"
                       >
-                        <Send className="w-3.5 h-3.5" /> DISPATCH
+                        <Send className="w-3.5 h-3.5" />
+                        <span>DISPATCH REPLY</span>
                       </button>
                     </form>
                   </div>

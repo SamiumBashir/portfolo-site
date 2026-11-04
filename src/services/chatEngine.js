@@ -1,7 +1,7 @@
 /* ==========================================================================
-   REAL-TIME CHAT & AI DISPATCH ENGINE
+   REAL-TIME CLOUD CHAT & AI DISPATCH ENGINE
    AUTHOR: SAMIUM BASHIR BADHAN
-   ARCHITECTURE: SOCKET.IO + BROADCASTCHANNEL REACTIVE BUS + LOCALSTORAGE
+   ARCHITECTURE: MONGODB ATLAS SERVERLESS API + BROADCASTCHANNEL + SOCKET.IO
    ========================================================================== */
 
 import { io } from 'socket.io-client';
@@ -90,6 +90,7 @@ export function getDefaultMessages() {
       text: "Hi there! 👋 I'm Samium's AI Assistant. How can I assist you with your project or full-stack software needs today?",
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       read: true,
+      sessionId: getVisitorSessionId(),
     },
   ];
 }
@@ -131,6 +132,61 @@ function notifyChannel(event) {
   }
 }
 
+// -----------------------------------------------------------------------------
+// CLOUD BACKEND API CALLS (MongoDB Atlas via /api/chat)
+// -----------------------------------------------------------------------------
+export async function postCloudMessage(message) {
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(message),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      console.warn('postCloudMessage failed:', err);
+      return null;
+    }
+    const data = await res.json();
+    return data.message || null;
+  } catch (err) {
+    console.warn('postCloudMessage network error:', err.message);
+    return null;
+  }
+}
+
+export async function fetchCloudMessages({ sessionId, admin = false } = {}) {
+  try {
+    const params = new URLSearchParams();
+    if (admin) {
+      params.set('admin', 'true');
+    } else if (sessionId) {
+      params.set('sessionId', sessionId);
+    }
+
+    const res = await fetch(`/api/chat?${params.toString()}`);
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data.messages) ? data.messages : [];
+  } catch (err) {
+    console.warn('fetchCloudMessages network error:', err.message);
+    return [];
+  }
+}
+
+export async function deleteCloudMessages(sessionId = null) {
+  try {
+    const url = sessionId && sessionId !== 'all' ? `/api/chat?sessionId=${encodeURIComponent(sessionId)}` : '/api/chat';
+    const res = await fetch(url, { method: 'DELETE' });
+    return res.ok;
+  } catch (err) {
+    console.warn('deleteCloudMessages error:', err.message);
+    return false;
+  }
+}
+
 // Smart AI Auto-Reply Generator
 export function generateAiResponse(userText) {
   const text = (userText || '').toLowerCase().trim();
@@ -163,7 +219,7 @@ export function generateAiResponse(userText) {
   return "Thank you for reaching out! Your message has been logged in the real-time telemetry console. Samium will review it shortly. You can also connect directly via WhatsApp anytime!";
 }
 
-// Real-Time Socket.IO Client Manager (With graceful fallback)
+// Real-Time Client Manager
 class ChatService {
   constructor() {
     this.socket = null;
@@ -173,7 +229,6 @@ class ChatService {
   }
 
   initSocket() {
-    // Only connect if a socket server URL is provided
     const socketUrl = import.meta.env.VITE_SOCKET_SERVER_URL;
     if (socketUrl) {
       try {
@@ -191,7 +246,7 @@ class ChatService {
           this.emit('ADMIN_STATUS', status);
         });
       } catch (err) {
-        console.warn('Socket.IO connection deferred, utilizing reactive local bus');
+        console.warn('Socket.IO connection deferred');
       }
     }
   }
@@ -225,12 +280,20 @@ class ChatService {
   }
 
   sendMessage(message) {
-    // Broadcast across tabs
-    notifyChannel({ type: 'NEW_MESSAGE', payload: message });
+    const enriched = {
+      ...message,
+      sessionId: message.sessionId || getVisitorSessionId(),
+    };
 
-    // Send through Socket.IO if connected
+    // 1. Local Broadcast Channel across browser tabs
+    notifyChannel({ type: 'NEW_MESSAGE', payload: enriched });
+
+    // 2. Real-Time Cloud MongoDB persistence
+    postCloudMessage(enriched);
+
+    // 3. Socket.IO if active
     if (this.socket && this.socket.connected) {
-      this.socket.emit('message', message);
+      this.socket.emit('message', enriched);
     }
   }
 
@@ -239,6 +302,34 @@ class ChatService {
     if (this.socket && this.socket.connected) {
       this.socket.emit('typing', { isTyping, sender });
     }
+  }
+
+  // Auto-sync polling loop
+  startAutoSync({ sessionId, admin = false, interval = 2500, onUpdate } = {}) {
+    let isFetching = false;
+
+    const performSync = async () => {
+      if (isFetching) return;
+      isFetching = true;
+      try {
+        const cloudMsgs = await fetchCloudMessages({ sessionId, admin });
+        if (Array.isArray(cloudMsgs) && onUpdate) {
+          onUpdate(cloudMsgs);
+        }
+      } catch (e) {
+        // silent error handling
+      } finally {
+        isFetching = false;
+      }
+    };
+
+    // Immediate first fetch
+    performSync();
+
+    // Recurring interval
+    const timer = setInterval(performSync, interval);
+
+    return () => clearInterval(timer);
   }
 }
 

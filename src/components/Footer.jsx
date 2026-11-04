@@ -87,10 +87,10 @@ export default function Footer({ onOpenAdmin }) {
             {onOpenAdmin && (
               <button
                 onClick={onOpenAdmin}
-                className="text-[#888888] hover:text-[#8F1D25] transition-colors cursor-pointer border border-[#2A2A2A] hover:border-[#8F1D25] px-2 py-0.5 text-[0.65rem]"
-                title="Open Live Chat Admin Console (PIN: 2026)"
+                className="text-[#888888] hover:text-[#8F1D25] transition-colors cursor-pointer border border-[#2A2A2A] hover:border-[#8F1D25] px-2 py-0.5 text-[0.65rem] font-bold"
+                title="Open Portfolio CMS & Admin Panel (PIN: 2026)"
               >
-                [ ADMIN CONSOLE ]
+                [ ADMIN PANEL // CMS ]
               </button>
             )}
             <span className="text-emerald-500 flex items-center gap-1.5">

@@ -1,18 +1,19 @@
 import React, { useState, useMemo } from 'react';
-import { projects, filterCategories } from '../data/projects';
+import { usePortfolioData } from '../context/PortfolioDataContext';
 import ProjectCard from './ProjectCard';
 import ProjectModal from './ProjectModal';
 import { Filter } from 'lucide-react';
 import { GithubIcon } from './Icons';
 
 export default function Works() {
+  const { projects, filterCategories } = usePortfolioData();
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [activeProject, setActiveProject] = useState(null);
 
   const filteredProjects = useMemo(() => {
     if (selectedFilter === 'all') return projects;
     return projects.filter((p) => p.filterCategory === selectedFilter);
-  }, [selectedFilter]);
+  }, [projects, selectedFilter]);
 
   return (
     <section id="projects" className="py-16 md:py-24 border-b border-[#D8D8D5] relative">

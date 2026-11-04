@@ -1,8 +1,11 @@
 import React from 'react';
 import { ArrowDown, ExternalLink, ShieldCheck, Download, FileText } from 'lucide-react';
 import { GithubIcon } from './Icons';
+import { usePortfolioData } from '../context/PortfolioDataContext';
 
-export default function Hero({ projectCount = 7 }) {
+export default function Hero() {
+  const { projects, profile } = usePortfolioData();
+  const projectCount = projects.length;
   return (
     <section
       id="home"

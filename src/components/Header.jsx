@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Download } from 'lucide-react';
+import { Menu, X, Download, Shield } from 'lucide-react';
 
 const NAV_LINKS = [
   { href: '#home', label: 'HOME' },
@@ -12,7 +12,7 @@ const NAV_LINKS = [
   { href: '#contact', num: '07', label: 'CONTACT' },
 ];
 
-export default function Header() {
+export default function Header({ onOpenAdmin }) {
   const [activeSection, setActiveSection] = useState('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -95,6 +95,18 @@ export default function Header() {
               <span className="whitespace-nowrap">CV / RESUME</span>
             </a>
 
+            {/* Admin Panel Trigger */}
+            {onOpenAdmin && (
+              <button
+                onClick={onOpenAdmin}
+                className="btn-editorial-primary btn-editorial-sm hidden md:inline-flex items-center gap-1.5 shrink-0 whitespace-nowrap cursor-pointer text-xs"
+                title="Open Portfolio CMS & Admin Panel (PIN: 2026)"
+              >
+                <Shield className="w-3.5 h-3.5 text-[#F5F4F1] shrink-0" />
+                <span className="whitespace-nowrap">ADMIN</span>
+              </button>
+            )}
+
             {/* Mobile Hamburger */}
             <button
               onClick={() => setMobileMenuOpen(true)}
@@ -150,6 +162,18 @@ export default function Header() {
             >
               <Download className="w-4 h-4" /> DOWNLOAD CV / RESUME (PDF)
             </a>
+
+            {onOpenAdmin && (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenAdmin();
+                }}
+                className="w-full btn-editorial-outline text-center flex items-center justify-center gap-2 py-2.5 text-xs text-[#F5F4F1] border-[#333333] cursor-pointer"
+              >
+                <Shield className="w-4 h-4 text-[#8F1D25]" /> ADMIN PANEL // CMS
+              </button>
+            )}
 
             <div className="flex flex-col gap-1 font-mono-tech text-[0.65rem] text-[#747474]">
               <span>SAMIUM BASHIR BADHAN // DHAKA, BANGLADESH</span>

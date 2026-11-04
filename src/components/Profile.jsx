@@ -1,7 +1,9 @@
 import React from 'react';
 import { Download, ExternalLink, Shield, Layers, Sparkles, GraduationCap } from 'lucide-react';
+import { usePortfolioData } from '../context/PortfolioDataContext';
 
 export default function Profile() {
+  const { profile } = usePortfolioData();
   return (
     <section id="about" className="py-16 md:py-24 border-b border-[#D8D8D5] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,23 +25,16 @@ export default function Profile() {
                 EXECUTIVE SUMMARY // CORE STATEMENT
               </span>
               <p className="font-serif-display text-xl sm:text-2xl text-[#111111] leading-relaxed">
-                "Full-Stack Developer and CSIT student specializing in architecting resilient backend systems, secure authentication pipelines, and high-precision React 19 web applications."
+                "{profile.summary || 'Full-Stack Developer specializing in architecting resilient backend systems, secure authentication pipelines, and high-precision React 19 web applications.'}"
               </p>
             </div>
 
             <div className="font-sans-ui text-base text-[#4A4A46] leading-relaxed space-y-4">
               <p>
-                Based in Dhaka, Bangladesh, I engineer end-to-end full-stack software applications
-                through disciplined system architecture, type-safe API design, distributed database schemas,
-                REST API integration, and performance optimization. My experience spans full-stack e-commerce
-                ecosystems, institutional management platforms, clinical diagnostic applications, and asynchronous
-                task processing pipelines.
+                {profile.bio1 || 'Based in Dhaka, Bangladesh, I engineer end-to-end full-stack software applications through disciplined system architecture, type-safe API design, distributed database schemas, REST API integration, and performance optimization.'}
               </p>
               <p>
-                I maintain a strong focus on full-stack architecture: bulletproof authentication
-                (Better-Auth, Jose JWT, HttpOnly sessions), backend data integrity (MongoDB Atlas, Redis caching,
-                Zod validation, Docker containerization), and an uncompromising client standard leveraging
-                React 19, TypeScript, and modern Tailwind CSS.
+                {profile.bio2 || 'I maintain a strong focus on full-stack architecture: bulletproof authentication, backend data integrity, and an uncompromising client standard leveraging React 19, TypeScript, and modern Tailwind CSS.'}
               </p>
             </div>
 

@@ -84,15 +84,6 @@ export default function Footer({ onOpenAdmin }) {
           </div>
 
           <div className="flex items-center gap-4">
-            {onOpenAdmin && (
-              <button
-                onClick={onOpenAdmin}
-                className="text-[#888888] hover:text-[#8F1D25] transition-colors cursor-pointer border border-[#2A2A2A] hover:border-[#8F1D25] px-2 py-0.5 text-[0.65rem] font-bold"
-                title="Open Portfolio CMS & Admin Panel (PIN: 2026)"
-              >
-                [ ADMIN PANEL // CMS ]
-              </button>
-            )}
             <span className="text-emerald-500 flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               VERCEL EDGE DEPLOYED

@@ -50,7 +50,11 @@ export function PortfolioDataProvider({ children }) {
     try {
       const stored = localStorage.getItem(STORAGE_KEY_PROFILE);
       if (stored) {
-        return { ...DEFAULT_PROFILE, ...JSON.parse(stored) };
+        const parsed = { ...DEFAULT_PROFILE, ...JSON.parse(stored) };
+        if (!parsed.whatsappNumber || parsed.whatsappNumber === '8801700000000') {
+          parsed.whatsappNumber = CONTACT_CONFIG.whatsappNumber;
+        }
+        return parsed;
       }
     } catch (e) {
       console.warn('Failed to parse stored profile, using defaults');

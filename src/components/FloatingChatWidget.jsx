@@ -149,12 +149,13 @@ export default function FloatingChatWidget({ onOpenAdmin }) {
     handleSendMessage(optionText);
   };
 
-  const activeWhatsAppNumber = adminState.whatsappNumber || CONTACT_CONFIG.whatsappNumber;
+  const rawNumber = adminState.whatsappNumber || CONTACT_CONFIG.whatsappNumber || '8801934164177';
+  const activeWhatsAppNumber = (rawNumber === '8801700000000' ? '8801934164177' : rawNumber).replace(/[^0-9]/g, '');
 
   const handleOpenWhatsApp = (customText) => {
-    const text = customText || inputText || "Hi Samium, I'm reaching out from your portfolio live chat!";
+    const text = (customText || inputText || "Hi Samium, I'm reaching out from your portfolio live chat!").trim();
     const encoded = encodeURIComponent(text);
-    window.open(`https://wa.me/${activeWhatsAppNumber}?text=${encoded}`, '_blank');
+    window.open(`https://wa.me/${activeWhatsAppNumber}?text=${encoded}`, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -353,10 +354,10 @@ export default function FloatingChatWidget({ onOpenAdmin }) {
                   className="w-full text-left py-2 px-3.5 bg-emerald-50 hover:bg-emerald-100/90 border border-emerald-300 rounded-xl text-xs font-mono-tech text-emerald-900 transition-all shadow-2xs cursor-pointer flex items-center justify-between"
                 >
                   <span className="flex items-center gap-1.5 font-bold">
-                    <WhatsAppIcon className="w-3.5 h-3.5 text-emerald-600" /> Direct WhatsApp Message
+                    <WhatsAppIcon className="w-3.5 h-3.5 text-emerald-600" /> Direct WhatsApp (+8801934164177)
                   </span>
                   <span className="text-[0.62rem] bg-emerald-600 text-white px-1.5 py-0.5 rounded font-mono font-bold">
-                    FAST
+                    ONLINE
                   </span>
                 </button>
 
@@ -409,11 +410,24 @@ export default function FloatingChatWidget({ onOpenAdmin }) {
                     {msg.text}
                   </div>
 
-                  {/* Metadata (Time & Read Ticks) */}
-                  <div className="flex items-center gap-1 mt-1 font-mono-tech text-[0.625rem] text-[#747474] px-1">
-                    <span>{msg.timestamp}</span>
+                  {/* Metadata (Time & Read Ticks & WhatsApp direct handoff) */}
+                  <div className="flex items-center justify-between gap-3 mt-1 font-mono-tech text-[0.625rem] text-[#747474] px-1 w-full max-w-[85%]">
+                    <div className="flex items-center gap-1">
+                      <span>{msg.timestamp}</span>
+                      {isUser && (
+                        <CheckCheck className="w-3.5 h-3.5 text-emerald-600 inline-block ml-0.5" />
+                      )}
+                    </div>
                     {isUser && (
-                      <CheckCheck className="w-3.5 h-3.5 text-emerald-600 inline-block ml-0.5" />
+                      <button
+                        type="button"
+                        onClick={() => handleOpenWhatsApp(msg.text)}
+                        className="text-emerald-700 hover:text-emerald-900 font-bold flex items-center gap-1 hover:underline cursor-pointer"
+                        title="Forward this message to Samium's WhatsApp (+8801934164177)"
+                      >
+                        <WhatsAppIcon className="w-3 h-3 text-emerald-600" />
+                        <span>Send to WhatsApp ↗</span>
+                      </button>
                     )}
                   </div>
                 </div>

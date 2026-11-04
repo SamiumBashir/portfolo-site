@@ -296,7 +296,7 @@ export default function ChatAdminDashboard({ isOpen, onClose }) {
                       type="text"
                       value={phoneInput}
                       onChange={(e) => setPhoneInput(e.target.value)}
-                      placeholder="e.g. 8801700000000"
+                      placeholder="e.g. 8801934164177"
                       className="flex-1 bg-[#F5F4F1] border border-[#D8D8D5] px-2.5 py-1 font-mono-tech text-xs text-[#111111] focus:border-[#8F1D25] focus:outline-none"
                     />
                     <button

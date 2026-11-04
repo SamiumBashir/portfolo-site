@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, Copy, Check, Send, MapPin } from 'lucide-react';
-import { GithubIcon, LinkedinIcon } from './Icons';
+import { GithubIcon, LinkedinIcon, WhatsAppIcon } from './Icons';
 import confetti from 'canvas-confetti';
 
 export default function Contact() {
@@ -108,7 +108,16 @@ export default function Contact() {
               </div>
 
               {/* Social Channels */}
-              <div className="flex items-center gap-3 pt-5 mt-4 border-t border-[#D8D8D5]">
+              <div className="flex flex-wrap items-center gap-3 pt-5 mt-4 border-t border-[#D8D8D5]">
+                <a
+                  href="https://wa.me/8801934164177"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2 font-mono-tech text-xs border border-[#D8D8D5] px-3 py-2 bg-white hover:border-emerald-600 hover:text-emerald-700 transition-colors"
+                  title="Connect on WhatsApp (+8801934164177)"
+                >
+                  <WhatsAppIcon className="w-4 h-4 text-emerald-600" /> WHATSAPP
+                </a>
                 <a
                   href="https://github.com/SamiumBashir"
                   target="_blank"

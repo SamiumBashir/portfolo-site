@@ -63,7 +63,13 @@ const DEFAULT_ADMIN_STATE = {
 export function getAdminState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_ADMIN_STATE);
-    return raw ? { ...DEFAULT_ADMIN_STATE, ...JSON.parse(raw) } : DEFAULT_ADMIN_STATE;
+    const state = raw ? { ...DEFAULT_ADMIN_STATE, ...JSON.parse(raw) } : { ...DEFAULT_ADMIN_STATE };
+    // Automatically replace old placeholder with verified real number
+    if (!state.whatsappNumber || state.whatsappNumber === '8801700000000') {
+      state.whatsappNumber = CONTACT_CONFIG.whatsappNumber;
+      localStorage.setItem(STORAGE_KEY_ADMIN_STATE, JSON.stringify(state));
+    }
+    return state;
   } catch {
     return DEFAULT_ADMIN_STATE;
   }

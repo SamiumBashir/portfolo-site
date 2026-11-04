@@ -935,7 +935,7 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
                             type="text"
                             value={chatPhoneInput}
                             onChange={(e) => setChatPhoneInput(e.target.value)}
-                            placeholder="e.g. 8801700000000"
+                            placeholder="e.g. 8801934164177"
                             className="flex-1 bg-white border border-[#D8D8D5] px-2 py-1 font-mono-tech text-xs text-[#111111] focus:border-[#8F1D25] focus:outline-none"
                           />
                           <button

@@ -149,7 +149,7 @@ export default function Profile() {
                   href="./Samium_Bashir_Badhan_CV.pdf"
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full btn-editorial-outline text-center flex items-center justify-center gap-2 py-2.5 text-xs text-white border-[#333333] hover:border-[#8F1D25]"
+                  className="w-full btn-editorial-outline text-center flex items-center justify-center gap-2 py-2.5 text-xs !text-white border-[#333333] hover:border-[#8F1D25]"
                 >
                   <ExternalLink className="w-3.5 h-3.5" /> PREVIEW CV IN NEW TAB
                 </a>

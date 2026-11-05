@@ -38,6 +38,7 @@ export default function ChatAdminDashboard({ isOpen, onClose }) {
   const [messages, setMessages] = useState([]);
   const [replyText, setReplyText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [confirmClear, setConfirmClear] = useState(false);
 
   const messagesEndRef = useRef(null);
 
@@ -130,13 +131,12 @@ export default function ChatAdminDashboard({ isOpen, onClose }) {
     chatService.sendTypingStatus(false, 'admin');
   };
 
-  const handleClearHistory = () => {
-    if (window.confirm('Are you sure you want to clear all message history?')) {
-      localStorage.removeItem('samium_chat_messages_v2');
-      const reset = [];
-      setMessages(reset);
-      saveStoredMessages(reset);
-    }
+  const executeClearHistory = () => {
+    localStorage.removeItem('samium_chat_messages_v2');
+    const reset = [];
+    setMessages(reset);
+    saveStoredMessages(reset);
+    setConfirmClear(false);
   };
 
   const handleExportTranscript = () => {
@@ -333,12 +333,35 @@ export default function ChatAdminDashboard({ isOpen, onClose }) {
                 >
                   <Download className="w-3.5 h-3.5" /> EXPORT JSON LOG
                 </button>
-                <button
-                  onClick={handleClearHistory}
-                  className="w-full btn-editorial-outline btn-editorial-sm text-xs text-red-700 hover:border-red-700 flex items-center justify-center gap-1.5"
-                >
-                  <Trash2 className="w-3.5 h-3.5" /> CLEAR MESSAGES
-                </button>
+                {confirmClear ? (
+                  <div className="bg-red-50 border border-red-300 p-2 space-y-1.5 text-center animate-in fade-in duration-150">
+                    <p className="font-mono-tech text-[0.65rem] text-red-900 font-bold">Clear all messages?</p>
+                    <div className="flex gap-1.5">
+                      <button
+                        type="button"
+                        onClick={executeClearHistory}
+                        className="flex-1 bg-red-700 hover:bg-red-800 text-white font-mono-tech text-[0.62rem] py-1 font-bold cursor-pointer transition-colors shadow-2xs"
+                      >
+                        YES, CLEAR
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setConfirmClear(false)}
+                        className="flex-1 bg-white hover:bg-neutral-100 text-[#111111] border border-[#D8D8D5] font-mono-tech text-[0.62rem] py-1 cursor-pointer transition-colors"
+                      >
+                        CANCEL
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setConfirmClear(true)}
+                    className="w-full btn-editorial-outline btn-editorial-sm text-xs text-red-700 hover:border-red-700 flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" /> CLEAR MESSAGES
+                  </button>
+                )}
               </div>
             </div>
 

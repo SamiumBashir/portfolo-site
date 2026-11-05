@@ -89,6 +89,9 @@ export default function AdminPanel({ isOpen, onClose }) {
     getAdminState().whatsappNumber || profile.whatsappNumber
   );
   const [chatPhoneSaved, setChatPhoneSaved] = useState(false);
+  const [confirmClearChat, setConfirmClearChat] = useState(false);
+  const [projectToDelete, setProjectToDelete] = useState(null);
+  const [confirmResetDefaults, setConfirmResetDefaults] = useState(false);
   const messagesEndRef = useRef(null);
 
   // JSON Import Ref
@@ -417,10 +420,15 @@ export default function AdminPanel({ isOpen, onClose }) {
     setIsEditorOpen(false);
   };
 
-  // Delete Project with Confirmation
+  // Delete Project with Non-Blocking UI Confirmation
   const handleDeleteProject = (proj) => {
-    if (window.confirm(`Are you sure you want to delete "${proj.title}"?`)) {
-      deleteProject(proj.id);
+    setProjectToDelete(proj);
+  };
+
+  const confirmDeleteProject = () => {
+    if (projectToDelete) {
+      deleteProject(projectToDelete.id);
+      setProjectToDelete(null);
     }
   };
 
@@ -475,14 +483,9 @@ export default function AdminPanel({ isOpen, onClose }) {
     setChatReply('');
   };
 
-  // Clear chat logs locally and from Cloud MongoDB Atlas
-  const handleClearChatLogs = async () => {
-    const targetDesc =
-      selectedSessionId === 'all'
-        ? 'ALL visitor chat history'
-        : `messages for session ${selectedSessionId}`;
-    if (!window.confirm(`Clear ${targetDesc} from cloud database and logs?`)) return;
-
+  // Clear chat logs locally and from Cloud MongoDB Atlas (Non-blocking)
+  const executeClearChatLogs = async () => {
+    setConfirmClearChat(false);
     await deleteCloudMessages(selectedSessionId);
     if (selectedSessionId === 'all') {
       localStorage.removeItem('samium_chat_messages_v2');
@@ -1148,12 +1151,41 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
                     </div>
 
                     <div className="pt-4 border-t border-[#D8D8D5]">
-                      <button
-                        onClick={handleClearChatLogs}
-                        className="w-full font-mono-tech text-xs text-red-700 hover:text-red-900 border border-red-200 hover:border-red-400 py-1.5 transition-colors cursor-pointer"
-                      >
-                        {selectedSessionId === 'all' ? 'CLEAR ALL CLOUD LOGS' : `CLEAR THREAD #${selectedSessionId.slice(-6)}`}
-                      </button>
+                      {confirmClearChat ? (
+                        <div className="space-y-2 bg-red-50 border border-red-300 p-2 text-center animate-in fade-in duration-150">
+                          <p className="font-mono-tech text-[0.68rem] text-red-900 font-bold">
+                            {selectedSessionId === 'all'
+                              ? 'Permanently clear ALL cloud chat logs?'
+                              : `Clear thread #${selectedSessionId.slice(-6)}?`}
+                          </p>
+                          <div className="flex gap-1.5">
+                            <button
+                              type="button"
+                              onClick={executeClearChatLogs}
+                              className="flex-1 bg-red-700 hover:bg-red-800 text-white font-mono-tech text-xs py-1.5 font-bold cursor-pointer transition-colors shadow-2xs"
+                            >
+                              YES, CLEAR
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setConfirmClearChat(false)}
+                              className="flex-1 bg-white hover:bg-neutral-100 text-[#111111] border border-[#D8D8D5] font-mono-tech text-xs py-1.5 cursor-pointer transition-colors"
+                            >
+                              CANCEL
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => setConfirmClearChat(true)}
+                          className="w-full font-mono-tech text-xs text-red-700 hover:text-red-900 border border-red-200 hover:border-red-400 py-1.5 transition-colors cursor-pointer"
+                        >
+                          {selectedSessionId === 'all'
+                            ? 'CLEAR ALL CLOUD LOGS'
+                            : `CLEAR THREAD #${selectedSessionId.slice(-6)}`}
+                        </button>
+                      )}
                     </div>
                   </div>
 
@@ -1383,21 +1415,36 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
                         />
                       </label>
 
-                      <button
-                        onClick={() => {
-                          if (
-                            window.confirm(
-                              'Reset all projects and profile data to original factory defaults?'
-                            )
-                          ) {
-                            resetToDefaults();
-                            alert('Reset completed successfully!');
-                          }
-                        }}
-                        className="font-mono-tech text-xs text-red-700 hover:text-red-900 ml-auto border border-red-200 hover:border-red-400 px-3 py-1.5 cursor-pointer transition-colors"
-                      >
-                        RESET FACTORY DEFAULTS
-                      </button>
+                      {confirmResetDefaults ? (
+                        <div className="ml-auto flex items-center gap-2 bg-red-50 border border-red-300 p-1.5 text-xs font-mono-tech animate-in fade-in duration-150">
+                          <span className="text-red-900 font-bold text-[0.68rem]">Reset all data?</span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              resetToDefaults();
+                              setConfirmResetDefaults(false);
+                            }}
+                            className="bg-red-700 hover:bg-red-800 text-white px-2 py-0.5 text-xs font-bold cursor-pointer transition-colors shadow-2xs"
+                          >
+                            YES, RESET
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setConfirmResetDefaults(false)}
+                            className="bg-white hover:bg-neutral-100 text-[#111111] border border-[#D8D8D5] px-2 py-0.5 text-xs cursor-pointer transition-colors"
+                          >
+                            CANCEL
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => setConfirmResetDefaults(true)}
+                          className="font-mono-tech text-xs text-red-700 hover:text-red-900 ml-auto border border-red-200 hover:border-red-400 px-3 py-1.5 cursor-pointer transition-colors"
+                        >
+                          RESET FACTORY DEFAULTS
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -1690,6 +1737,43 @@ export const filterCategories = ${JSON.stringify(filterCategories, null, 2)};
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+      {/* Project Delete Confirmation Modal (Non-blocking) */}
+      {projectToDelete && (
+        <div
+          className="fixed inset-0 z-70 bg-[#111111]/80 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-150"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="bg-white border-2 border-[#111111] shadow-[8px_8px_0px_#111111] max-w-md w-full p-6 text-[#111111] space-y-4">
+            <div className="flex items-center gap-2 text-red-700">
+              <span className="w-2.5 h-2.5 bg-red-700" />
+              <h4 className="font-mono-tech text-xs font-bold uppercase tracking-wider">
+                CONFIRM SYSTEM DELETION //
+              </h4>
+            </div>
+            <p className="font-sans-ui text-sm text-[#111111] leading-relaxed">
+              Are you sure you want to permanently delete{' '}
+              <strong>"{projectToDelete.title}"</strong> from your architectural portfolio?
+            </p>
+            <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-[#D8D8D5]">
+              <button
+                type="button"
+                onClick={() => setProjectToDelete(null)}
+                className="btn-editorial-outline btn-editorial-sm text-xs py-2 px-4 cursor-pointer"
+              >
+                CANCEL
+              </button>
+              <button
+                type="button"
+                onClick={confirmDeleteProject}
+                className="bg-red-700 hover:bg-red-800 text-white font-mono-tech text-xs font-bold py-2 px-5 cursor-pointer shadow-xs transition-colors flex items-center gap-1.5"
+              >
+                <Trash2 className="w-3.5 h-3.5" /> DELETE SYSTEM
+              </button>
+            </div>
           </div>
         </div>
       )}
